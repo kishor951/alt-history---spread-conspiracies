@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=3 uid="uid://wtwwvwxm6ei8"]
+[gd_scene load_steps=64 format=3 uid="uid://wtwwvwxm6ei8"]
 
 [ext_resource type="Script" path="res://scripts/country_map.gd" id="1_qo87q"]
 [ext_resource type="Texture2D" uid="uid://cfvmlh1bceh0w" path="res://assets/images/countries_new/Brazil.png" id="3_aluyu"]
@@ -61,6 +61,9 @@
 [ext_resource type="Texture2D" uid="uid://dtdtdgfw3axxg" path="res://assets/images/countries_new/United States.png" id="59_m8n0i"]
 [ext_resource type="Texture2D" uid="uid://bcd3xinjybkqg" path="res://assets/images/countries_new/West Africa.png" id="60_0c8pb"]
 [ext_resource type="Texture2D" uid="uid://bnl7u4ckwiqdc" path="res://assets/images/countries_new/Zimbabwe.png" id="61_qpytp"]
+[ext_resource type="PackedScene" uid="uid://b1y75exnp5rke" path="res://scenes/DateDisplay.tscn" id="62_m6gbh"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_v44v5"]
 
 [node name="CountryMap" type="Node2D"]
 script = ExtResource("1_qo87q")
@@ -86,354 +89,375 @@ offset_right = 253.0
 offset_bottom = 23.0
 
 [node name="Population" type="Label" parent="CanvasLayer/CountryInfoPanel"]
+layout_mode = 0
 offset_left = 124.0
 offset_top = 137.0
 offset_right = 318.0
 offset_bottom = 160.0
 
 [node name="Resistors" type="Label" parent="CanvasLayer/CountryInfoPanel"]
+layout_mode = 0
 offset_left = 109.0
 offset_top = 106.0
 offset_right = 283.0
 offset_bottom = 129.0
 
 [node name="Followers" type="Label" parent="CanvasLayer/CountryInfoPanel"]
+layout_mode = 0
 offset_left = 99.0
 offset_top = 67.0
 offset_right = 292.0
 offset_bottom = 90.0
 
 [node name="Summary" type="Label" parent="CanvasLayer/CountryInfoPanel"]
+layout_mode = 0
 offset_left = 83.0
 offset_top = 30.0
 offset_right = 224.0
 offset_bottom = 53.0
 
-[node name="India" type="Sprite2D" parent="."]
+[node name="CountriesContainer" type="Node2D" parent="."]
+top_level = true
+z_index = 2
+
+[node name="India" type="Sprite2D" parent="CountriesContainer"]
 top_level = true
 z_index = 2
 position = Vector2(833, 387)
 scale = Vector2(0.4875, 0.4875)
 texture = ExtResource("7_mo5ag")
 
-[node name="Brazil" type="Sprite2D" parent="."]
+[node name="Brazil" type="Sprite2D" parent="CountriesContainer"]
 top_level = true
 z_index = 2
 position = Vector2(465, 477)
 scale = Vector2(0.487113, 0.487113)
 texture = ExtResource("3_aluyu")
 
-[node name="Afghanistan" type="Sprite2D" parent="."]
+[node name="Afghanistan" type="Sprite2D" parent="CountriesContainer"]
 top_level = true
 z_index = 2
 position = Vector2(793.57, 357.375)
 scale = Vector2(0.485576, 0.485576)
 texture = ExtResource("4_ij1qg")
 
-[node name="Australia" type="Sprite2D" parent="."]
+[node name="Australia" type="Sprite2D" parent="CountriesContainer"]
 top_level = true
 z_index = 2
 position = Vector2(970.223, 510.625)
 scale = Vector2(0.490113, 0.490113)
 texture = ExtResource("5_t4lyi")
 
-[node name="Node2D" type="Node2D" parent="."]
+[node name="Greenland" type="Sprite2D" parent="CountriesContainer"]
 top_level = true
 z_index = 2
-
-[node name="Greenland" type="Sprite2D" parent="."]
-top_level = true
-z_index = 2
-position = Vector2(495, 165)
-scale = Vector2(0.512142, 0.512142)
+position = Vector2(493.492, 161.097)
+scale = Vector2(0.503059, 0.493601)
 texture = ExtResource("6_uyenr")
 
-[node name="Algeria" type="Sprite2D" parent="."]
+[node name="Algeria" type="Sprite2D" parent="CountriesContainer"]
 top_level = true
 z_index = 2
 position = Vector2(616, 372)
 scale = Vector2(0.491071, 0.491071)
 texture = ExtResource("7_icex1")
 
-[node name="Indonesia" type="Sprite2D" parent="."]
+[node name="Indonesia" type="Sprite2D" parent="CountriesContainer"]
 top_level = true
 z_index = 2
 position = Vector2(917, 446)
 scale = Vector2(0.491071, 0.491071)
 texture = ExtResource("8_cdmxx")
 
-[node name="Angola" type="Sprite2D" parent="."]
+[node name="Angola" type="Sprite2D" parent="CountriesContainer"]
 top_level = true
 z_index = 2
 position = Vector2(659, 470)
 scale = Vector2(0.491071, 0.491071)
 texture = ExtResource("9_vkogb")
 
-[node name="Argentina" type="Sprite2D" parent="."]
+[node name="Argentina" type="Sprite2D" parent="CountriesContainer"]
 top_level = true
 z_index = 2
 position = Vector2(438.134, 540.746)
 scale = Vector2(0.497768, 0.497768)
 texture = ExtResource("10_f7t2u")
 
-[node name="Balkan States" type="Sprite2D" parent="."]
+[node name="Balkan States" type="Sprite2D" parent="CountriesContainer"]
 top_level = true
 z_index = 2
 position = Vector2(668, 335)
 scale = Vector2(0.505394, 0.505394)
 texture = ExtResource("11_xidxp")
 
-[node name="Baltic States" type="Sprite2D" parent="."]
+[node name="Baltic States" type="Sprite2D" parent="CountriesContainer"]
 top_level = true
 z_index = 2
 position = Vector2(682, 285)
 scale = Vector2(0.475128, 0.508201)
 texture = ExtResource("12_decu3")
 
-[node name="Bolivia" type="Sprite2D" parent="."]
+[node name="Bolivia" type="Sprite2D" parent="CountriesContainer"]
 top_level = true
 z_index = 2
 position = Vector2(438.5, 480.204)
 scale = Vector2(0.469697, 0.478672)
 texture = ExtResource("15_otsgt")
 
-[node name="Botswana" type="Sprite2D" parent="."]
+[node name="Botswana" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(676.568, 495.645)
 scale = Vector2(0.461578, 0.493708)
 texture = ExtResource("16_nxhrt")
 
-[node name="Central America" type="Sprite2D" parent="."]
+[node name="Central America" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(383.15, 412.263)
 scale = Vector2(0.496428, 0.490601)
 texture = ExtResource("17_r2glr")
 
-[node name="Canada" type="Sprite2D" parent="."]
+[node name="Canada" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(350.056, 202.181)
 scale = Vector2(0.493488, 0.502135)
 texture = ExtResource("18_7mg2m")
 
-[node name="Caribbean" type="Sprite2D" parent="."]
+[node name="Caribbean" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(408, 392.855)
 scale = Vector2(0.516667, 0.542982)
 texture = ExtResource("19_8aj7n")
 
-[node name="Central Africa" type="Sprite2D" parent="."]
+[node name="Central Africa" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(664, 429)
 scale = Vector2(0.495999, 0.5)
 texture = ExtResource("18_yq50e")
 
-[node name="Central Asia" type="Sprite2D" parent="."]
+[node name="Central Asia" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(789.5, 337.375)
 scale = Vector2(0.486667, 0.480769)
 texture = ExtResource("19_83g5b")
 
-[node name="Central Europe" type="Sprite2D" parent="."]
+[node name="Central Europe" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(659, 316)
 scale = Vector2(0.486667, 0.480769)
 texture = ExtResource("20_x5xjt")
 
-[node name="China" type="Sprite2D" parent="."]
+[node name="China" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(892, 342)
 scale = Vector2(0.495468, 0.489796)
 texture = ExtResource("21_6neb4")
 
-[node name="Colombia" type="Sprite2D" parent="."]
+[node name="Colombia" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(432, 433)
 scale = Vector2(0.495468, 0.489796)
 texture = ExtResource("22_mudao")
 
-[node name="East Africa" type="Sprite2D" parent="."]
+[node name="East Africa" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(709, 453)
 scale = Vector2(0.495468, 0.489796)
 texture = ExtResource("23_llpi4")
 
-[node name="Egypt" type="Sprite2D" parent="."]
+[node name="Egypt" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(693.717, 376.678)
 scale = Vector2(0.478922, 0.502731)
 texture = ExtResource("24_rmvvf")
 
-[node name="Finland" type="Sprite2D" parent="."]
+[node name="Finland" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(682, 238)
 scale = Vector2(0.478922, 0.502731)
 texture = ExtResource("25_ybgch")
 
-[node name="France" type="Sprite2D" parent="."]
+[node name="France" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(615, 317.541)
 scale = Vector2(0.478922, 0.484699)
 texture = ExtResource("28_2161s")
 
-[node name="Germany" type="Sprite2D" parent="."]
+[node name="Germany" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(634, 296)
 scale = Vector2(0.478922, 0.484699)
 texture = ExtResource("27_scbxf")
 
-[node name="Iran" type="Sprite2D" parent="."]
+[node name="Iran" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(755.438, 360.671)
 scale = Vector2(0.505952, 0.495828)
 texture = ExtResource("28_m2jve")
 
-[node name="Iraq" type="Sprite2D" parent="."]
+[node name="Iraq" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(728.525, 359.5)
 scale = Vector2(0.462038, 0.479167)
 texture = ExtResource("29_fs85y")
 
-[node name="Japan" type="Sprite2D" parent="."]
+[node name="Japan" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(991, 328.531)
 scale = Vector2(0.483872, 0.486251)
 texture = ExtResource("30_m7ajr")
 
-[node name="Italy" type="Sprite2D" parent="."]
+[node name="Italy" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(644.508, 332.906)
 scale = Vector2(0.477173, 0.482008)
 texture = ExtResource("31_22i7i")
 
-[node name="Kazakhstan" type="Sprite2D" parent="."]
+[node name="Kazakhstan" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(791.518, 311.302)
 scale = Vector2(0.495618, 0.503735)
 texture = ExtResource("33_cwrjk")
 
-[node name="Libya" type="Sprite2D" parent="."]
+[node name="Libya" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(657.335, 377.245)
 scale = Vector2(0.492383, 0.47246)
 texture = ExtResource("34_34dh0")
 
-[node name="Madagascar" type="Sprite2D" parent="."]
+[node name="Madagascar" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(736.495, 487)
 scale = Vector2(0.487429, 0.479167)
 texture = ExtResource("35_xjgld")
 
-[node name="Mexico" type="Sprite2D" parent="."]
+[node name="Mexico" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(336, 384.38)
 scale = Vector2(0.493976, 0.492215)
 texture = ExtResource("36_0a247")
 
-[node name="Middle east" type="Sprite2D" parent="."]
+[node name="Middle east" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(714.84, 358.87)
 scale = Vector2(0.455509, 0.473626)
 texture = ExtResource("37_44l18")
 
-[node name="Morocco" type="Sprite2D" parent="."]
+[node name="Morocco" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(586.582, 371.828)
 scale = Vector2(0.490509, 0.491587)
 texture = ExtResource("38_p06qe")
 
-[node name="New Guinea" type="Sprite2D" parent="."]
+[node name="New Guinea" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(998.5, 455)
 scale = Vector2(0.493056, 0.479167)
 texture = ExtResource("39_cj5mr")
 
-[node name="New Zealand" type="Sprite2D" parent="."]
+[node name="New Zealand" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(1077, 546.5)
 scale = Vector2(0.483871, 0.513158)
 texture = ExtResource("39_jvugn")
 
-[node name="Philippines" type="Sprite2D" parent="."]
+[node name="Philippines" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(939.217, 413)
 scale = Vector2(0.508331, 0.507936)
 texture = ExtResource("40_6vcks")
 
-[node name="Peru" type="Sprite2D" parent="."]
+[node name="Peru" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(409, 464)
 scale = Vector2(0.516667, 0.5)
 texture = ExtResource("41_rdw1d")
 
-[node name="Norway" type="Sprite2D" parent="."]
+[node name="Norway" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(659.713, 238.5)
 scale = Vector2(0.50656, 0.517241)
 texture = ExtResource("42_3nwt1")
 
-[node name="Pakistan" type="Sprite2D" parent="."]
+[node name="Pakistan" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(795, 367.553)
 scale = Vector2(0.493828, 0.512427)
 texture = ExtResource("43_v0t81")
 
-[node name="North Korea" type="Sprite2D" parent="."]
+[node name="North Korea" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(954, 338)
 scale = Vector2(0.516667, 0.51874)
 texture = ExtResource("44_0ci21")
 
-[node name="Poland" type="Sprite2D" parent="."]
+[node name="Poland" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(661.896, 299.5)
 scale = Vector2(0.476518, 0.477273)
 texture = ExtResource("45_b674l")
 
-[node name="S E Asia" type="Sprite2D" parent="."]
+[node name="S E Asia" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(881.921, 400.398)
 scale = Vector2(0.496325, 0.484251)
 texture = ExtResource("48_cmrw4")
 
-[node name="Iceland" type="Sprite2D" parent="."]
-position = Vector2(570.702, 248.25)
-scale = Vector2(0.873414, 0.934211)
+[node name="Iceland" type="Sprite2D" parent="CountriesContainer"]
+position = Vector2(559.75, 241.25)
+scale = Vector2(0.508334, 0.56579)
 texture = ExtResource("9_0ksdl")
 
-[node name="UK" type="Sprite2D" parent="."]
+[node name="UK" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(600, 289)
 scale = Vector2(0.484849, 0.477273)
 texture = ExtResource("49_4qfql")
 
-[node name="Turkey" type="Sprite2D" parent="."]
+[node name="Turkey" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(706.23, 342)
 scale = Vector2(0.480978, 0.477273)
 texture = ExtResource("50_86b3i")
 
-[node name="Sweden" type="Sprite2D" parent="."]
+[node name="Sweden" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(658.72, 251.176)
 scale = Vector2(0.484636, 0.479771)
 texture = ExtResource("51_fs1dh")
 
-[node name="Sudan" type="Sprite2D" parent="."]
+[node name="Sudan" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(692.159, 411.739)
 scale = Vector2(0.480017, 0.483081)
 texture = ExtResource("52_uwrr3")
 
-[node name="Spain" type="Sprite2D" parent="."]
+[node name="Spain" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(603, 340)
 scale = Vector2(0.476518, 0.477273)
 texture = ExtResource("53_uj7yt")
 
-[node name="South Korea" type="Sprite2D" parent="."]
+[node name="South Korea" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(954.903, 350)
 scale = Vector2(0.46903, 0.477273)
 texture = ExtResource("54_av3df")
 
-[node name="South Africa" type="Sprite2D" parent="."]
+[node name="South Africa" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(671.181, 505)
 scale = Vector2(0.49688, 0.477273)
 texture = ExtResource("55_cakut")
 
-[node name="Saudi Arabia" type="Sprite2D" parent="."]
+[node name="Saudi Arabia" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(738, 387.812)
 scale = Vector2(0.492754, 0.48106)
 texture = ExtResource("56_w1lqc")
 
-[node name="Russia" type="Sprite2D" parent="."]
+[node name="Russia" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(904, 222)
 scale = Vector2(0.498293, 0.496945)
 texture = ExtResource("49_16l0o")
 
-[node name="Ukraine" type="Sprite2D" parent="."]
+[node name="Ukraine" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(695, 311)
 scale = Vector2(0.480017, 0.483081)
 texture = ExtResource("58_diuqy")
 
-[node name="USA" type="Sprite2D" parent="."]
+[node name="USA" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(294.5, 291.426)
 scale = Vector2(0.494485, 0.496254)
 texture = ExtResource("59_m8n0i")
 
-[node name="West Africa" type="Sprite2D" parent="."]
+[node name="West Africa" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(608.5, 403.517)
 scale = Vector2(0.494444, 0.486424)
 texture = ExtResource("60_0c8pb")
 
-[node name="Zimbabwe" type="Sprite2D" parent="."]
+[node name="Zimbabwe" type="Sprite2D" parent="CountriesContainer"]
 position = Vector2(690.531, 486.295)
 scale = Vector2(0.47344, 0.460858)
 texture = ExtResource("61_qpytp")
 
-[node name="GreenEarth" type="Sprite2D" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CountriesContainer"]
+
+[node name="EarthBackground" type="Sprite2D" parent="."]
 z_index = -6
 position = Vector2(641.282, 358.096)
 scale = Vector2(0.498478, 0.498478)
 texture = ExtResource("7_daabj")
+
+[node name="Calender" type="CanvasLayer" parent="."]
+
+[node name="DateDisplay" parent="Calender" instance=ExtResource("62_m6gbh")]
+offset_left = 1069.0
+offset_top = 21.0
+offset_right = -31.0
+offset_bottom = -663.0
+
+[node name="ActivationButton" type="Button" parent="."]
+offset_left = 1069.0
+offset_top = 21.0
+offset_right = 1077.0
+offset_bottom = 29.0
+icon = SubResource("ImageTexture_v44v5")

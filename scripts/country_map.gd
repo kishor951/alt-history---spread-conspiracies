@@ -7,6 +7,16 @@ extends Node2D
 @onready var followers_label = $"CanvasLayer/CountryInfoPanel/Followers"
 @onready var summary_label = $"CanvasLayer/CountryInfoPanel/Summary"
 
+@onready var countries_container = $CountriesContainer
+
+@onready var animation_player = $CountriesContainer/AnimationPlayer
+
+# For date calling from the DateDisplay.gd
+@onready var date_display = $Calender/DateDisplay
+
+var selected_country = null  # Track the selected country
+var activation_done = false  # Prevents multiple activations
+
 var countries_data = {
 	"Brazil": {
 		"population": 210571282,
@@ -364,7 +374,7 @@ func _ready():
 		print("✅ CountryInfoPanel found at runtime!")
 	else:
 		print("❌ ERROR: CountryInfoPanel is NOT in the scene!")
-
+	date_display.set_game_speed(1)
 
 func _input(event):
 	if event is InputEventMouseButton and event.pressed:
@@ -374,7 +384,7 @@ func _input(event):
 func check_country_click(mouse_pos):
 	print("🔍 Checking countries...") 
 
-	for country in get_children():
+	for country in countries_container.get_children():
 		if country is Sprite2D:
 			print("🖼 Checking sprite:", country.name)
 
@@ -395,6 +405,8 @@ func check_country_click(mouse_pos):
 
 				# Show country info
 				update_country_info(country.name)
+				play_blink_animation(country)
+		
 				return
 
 	print("❌ No country detected at:", mouse_pos)
@@ -404,14 +416,6 @@ func update_country_info(country_name):
 		var data = countries_data[country_name]
 		print("📢 Updating UI for:", country_name)
 
-		# Debug before setting text
-		print("Before Update:")
-		print("📍 Country Name Text:", country_name_label.text)
-		print("👥 Population Text:", population_label.text)
-		print("⚡ Resistors Text:", resistors_label.text)
-		print("🚀 Followers Text:", followers_label.text)
-		print("📜 Summary Text:", summary_label.text)
-
 		# Update UI labels
 		country_name_label.text = "Country: " + country_name
 		population_label.text = "Population: " + str(data["population"])
@@ -420,13 +424,35 @@ func update_country_info(country_name):
 		summary_label.text = data["summary"]
 		country_info_panel.visible = true  # Show the panel
 
-		# Debug after setting text
-		print("After Update:")
-		print("📍 Country Name Text:", country_name_label.text)
-		print("👥 Population Text:", population_label.text)
-		print("⚡ Resistors Text:", resistors_label.text)
-		print("🚀 Followers Text:", followers_label.text)
-		print("📜 Summary Text:", summary_label.text)
-
 	else:
 		print("⚠️ No data available for", country_name)
+
+func play_blink_animation(sprite):
+	animation_player.stop()  # Stop previous animations
+
+	var anim_name = "blink_" + sprite.name  # Unique animation name per sprite
+
+	if not animation_player.has_animation(anim_name):
+		var anim = Animation.new()
+		anim.add_track(Animation.TYPE_VALUE)
+		anim.track_set_path(0, str(sprite.get_path()) + ":modulate:a")  # Fix path issue
+
+		# Create blink effect (fade in and out)
+		anim.track_insert_key(0, 0.0, 1.0)  # Fully visible
+		anim.track_insert_key(0, 0.2, 0.3)  # Almost invisible
+		anim.track_insert_key(0, 0.4, 1.0)  # Fully visible
+		anim.track_insert_key(0, 0.6, 0.3)  # Almost invisible
+		anim.track_insert_key(0, 0.8, 1.0)  # Fully visible
+
+		anim.length = 5.0  # Duration of 1 second
+
+		# Add animation to an AnimationLibrary before using it
+		var anim_lib = animation_player.get_animation_library("")
+		if anim_lib == null:
+			anim_lib = AnimationLibrary.new()
+			animation_player.add_animation_library("", anim_lib)
+
+		anim_lib.add_animation(anim_name, anim)
+
+	animation_player.play(anim_name)
+	
