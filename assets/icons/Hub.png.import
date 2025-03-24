@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bhf8nj24c8tmg"
-path="res://.godot/imported/Russia.png-9cae694d1b04c2e281a871517dd77965.ctex"
+uid="uid://cou52m7so6bvf"
+path="res://.godot/imported/Hub.png-0fc8d87d28423e2d04b75aa50689866b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/Russia.png"
-dest_files=["res://.godot/imported/Russia.png-9cae694d1b04c2e281a871517dd77965.ctex"]
+source_file="res://assets/icons/Hub.png"
+dest_files=["res://.godot/imported/Hub.png-0fc8d87d28423e2d04b75aa50689866b.ctex"]
 
 [params]
 

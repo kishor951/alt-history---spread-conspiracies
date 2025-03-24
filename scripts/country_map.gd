@@ -17,6 +17,12 @@ extends Node2D
 var selected_country = null  # Track the selected country
 var activation_done = false  # Prevents multiple activations
 
+@onready var activation_button = $ActivationButton  # The activation button
+@onready var marker_container = $MarkerContainer  # Holds markers
+@onready var activation_marker = $ActivationMarker  # The activation sprite
+
+var button_offset := Vector2(0, -30)
+
 var countries_data = {
 	"Brazil": {
 		"population": 210571282,
@@ -375,6 +381,24 @@ func _ready():
 	else:
 		print("❌ ERROR: CountryInfoPanel is NOT in the scene!")
 	date_display.set_game_speed(1)
+	
+	print("🛠 Activation Button Check")
+	
+	if activation_button:
+		print("✅ Activation Button Loaded")
+	else:
+		print("❌ Activation Button NOT Found")
+
+	if activation_button.visible:
+		print("✅ Activation Button is Visible")
+	else:
+		print("⚠️ Activation Button is Hidden!")
+	
+	print("🖱 Mouse Filter:", activation_button.mouse_filter)
+	activation_button.connect("pressed", Callable(self, "_on_ActivationButton_pressed"))
+	print("✅ Activation Button signal connected!")
+	activation_marker.visible = false
+
 
 func _input(event):
 	if event is InputEventMouseButton and event.pressed:
@@ -406,6 +430,8 @@ func check_country_click(mouse_pos):
 				# Show country info
 				update_country_info(country.name)
 				play_blink_animation(country)
+				_on_country_clicked(country.name, country.global_position)
+
 		
 				return
 
@@ -455,4 +481,97 @@ func play_blink_animation(sprite):
 		anim_lib.add_animation(anim_name, anim)
 
 	animation_player.play(anim_name)
+
+func _on_country_clicked(country_name, mouse_pos):
+	if activation_done:
+		print("⚠ Activation already done! Ignoring click on", country_name)
+		return  
+
+	selected_country = country_name
 	
+	print("✅ Country selected:", selected_country)
+
+	# Find the country sprite dynamically
+	var country_sprite = countries_container.find_child(country_name, true, false)
+	if country_sprite:
+		var sprite_rect = Rect2(
+			-country_sprite.texture.get_width() / 2, 
+			-country_sprite.texture.get_height() / 2, 
+			country_sprite.texture.get_width(), 
+			country_sprite.texture.get_height()
+		)
+
+		# **NEW FIX: Use center of country instead of mouse_pos**
+		var center_local_pos = sprite_rect.get_center()  # Ensures we place the button at the middle
+		var final_pos = country_sprite.to_global(center_local_pos)
+
+		# Ensure button stays within country bounds
+		final_pos.x = clamp(final_pos.x, country_sprite.global_position.x - sprite_rect.size.x / 2,
+										   country_sprite.global_position.x + sprite_rect.size.x / 2)
+		final_pos.y = clamp(final_pos.y, country_sprite.global_position.y - sprite_rect.size.y / 2,
+										   country_sprite.global_position.y + sprite_rect.size.y / 2)
+
+		# Position the activation button
+		activation_button.global_position = final_pos
+		activation_button.visible = true
+		activation_button.mouse_filter = Control.MOUSE_FILTER_STOP
+		print("✅ Activation Button Positioned at:", activation_button.global_position)
+	else:
+		print("❌ ERROR: Could not find sprite for", country_name)
+
+func _on_ActivationButton_pressed():
+	print("🔹 Activation Button was clicked!")  
+
+	if not selected_country:
+		print("⚠️ No country selected!")
+		return
+
+	if activation_done:
+		print("⚠️ Activation already completed!")
+		return
+
+	print("🚀 Activating:", selected_country)
+
+	# Hide activation button
+	activation_button.visible = false
+	print("👀 Activation Button Hidden")
+
+	# Find country sprite & place marker
+	var country_sprite = countries_container.find_child(selected_country, true, false)
+	if country_sprite:
+		print("✅ Found sprite for", selected_country)
+		
+		var sprite_rect = Rect2(
+			-country_sprite.texture.get_width() / 2, 
+			-country_sprite.texture.get_height() / 2, 
+			country_sprite.texture.get_width(), 
+			country_sprite.texture.get_height()
+		)
+		
+		# Place marker at the center
+		var marker_position = country_sprite.to_global(sprite_rect.get_center())
+		activation_marker.global_position = marker_position
+		activation_marker.visible = true
+		
+		print("🌟 Activation Marker placed at:", activation_marker.global_position)
+		print("🔍 Activation Marker Visibility:", activation_marker.visible)
+
+		# Extra Debugging
+		if not activation_marker.visible:
+			print("⚠️ ERROR: Activation Marker is STILL hidden!")
+		else:
+			print("✅ Activation Marker is now VISIBLE!")
+
+	else:
+		print("❌ ERROR: Could not find country sprite for marker placement!")
+
+	# Prevent multiple activations
+	activation_done = true
+	print("✅ Activation Done!")
+
+
+
+		
+func _gui_input(event):
+	if event is InputEventMouseButton and event.pressed:
+		print("🖱️ Activation Button Clicked!")

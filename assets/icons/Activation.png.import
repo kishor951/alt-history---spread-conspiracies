@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bkrytd630vlt4"
-path="res://.godot/imported/United States.png-d32e0ee43b8cf24f7a20e3a3d748f5b7.ctex"
+uid="uid://ceumigarl05s7"
+path="res://.godot/imported/Activation.png-369f6d395dfa5413e2f2772058ec79fa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/images/United States.png"
-dest_files=["res://.godot/imported/United States.png-d32e0ee43b8cf24f7a20e3a3d748f5b7.ctex"]
+source_file="res://assets/icons/Activation.png"
+dest_files=["res://.godot/imported/Activation.png-369f6d395dfa5413e2f2772058ec79fa.ctex"]
 
 [params]
 
