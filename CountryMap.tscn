@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=3 uid="uid://wtwwvwxm6ei8"]
+[gd_scene load_steps=68 format=3 uid="uid://wtwwvwxm6ei8"]
 
 [ext_resource type="Script" path="res://scripts/country_map.gd" id="1_qo87q"]
 [ext_resource type="Texture2D" uid="uid://cfvmlh1bceh0w" path="res://assets/images/countries_new/Brazil.png" id="3_aluyu"]
@@ -64,12 +64,17 @@
 [ext_resource type="PackedScene" uid="uid://b1y75exnp5rke" path="res://scenes/DateDisplay.tscn" id="62_m6gbh"]
 [ext_resource type="Texture2D" uid="uid://ceumigarl05s7" path="res://assets/icons/Activation.png" id="63_0b50x"]
 [ext_resource type="Texture2D" uid="uid://cou52m7so6bvf" path="res://assets/icons/Hub.png" id="64_33hax"]
+[ext_resource type="Texture2D" uid="uid://tuv0c1pryihk" path="res://assets/icons/print.png" id="65_1wv4k"]
+[ext_resource type="Texture2D" uid="uid://be1fej7x4k2p5" path="res://assets/icons/satellite.png" id="66_devao"]
+[ext_resource type="Texture2D" uid="uid://cawhfkouc3s1t" path="res://assets/icons/social.png" id="67_smntn"]
 
 [node name="CountryMap" type="Node2D"]
 script = ExtResource("1_qo87q")
 
 [node name="Camera2D" type="Camera2D" parent="."]
+visible = false
 position = Vector2(640, 359)
+enabled = false
 
 [node name="CountriesContainer" type="Node2D" parent="."]
 top_level = true
@@ -407,6 +412,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 179.0
 offset_bottom = 130.0
+metadata/_edit_use_anchors_ = true
 
 [node name="CountryInfoPanel" type="Panel" parent="CanvasLayer"]
 layout_mode = 0
@@ -430,14 +436,6 @@ offset_top = 16.0
 offset_right = 599.0
 offset_bottom = 39.0
 text = "Population"
-
-[node name="Resistors" type="Label" parent="CanvasLayer/CountryInfoPanel"]
-visible = false
-layout_mode = 0
-offset_left = 184.0
-offset_top = 45.0
-offset_right = 358.0
-offset_bottom = 68.0
 
 [node name="Followers" type="Label" parent="CanvasLayer/CountryInfoPanel"]
 layout_mode = 0
@@ -483,3 +481,882 @@ z_index = 100
 position = Vector2(691.625, 59.6249)
 scale = Vector2(0.019213, 0.019213)
 texture = ExtResource("64_33hax")
+
+[node name="MediaContainer" type="Node2D" parent="."]
+z_index = 50
+
+[node name="Print" type="Node2D" parent="MediaContainer"]
+
+[node name="1-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(187, 250)
+scale = Vector2(0.238095, 0.238095)
+texture = ExtResource("65_1wv4k")
+
+[node name="2-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(394, 424)
+scale = Vector2(0.142858, 0.142858)
+texture = ExtResource("65_1wv4k")
+
+[node name="3-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(314, 370)
+scale = Vector2(0.142858, 0.142858)
+texture = ExtResource("65_1wv4k")
+
+[node name="4-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(426, 398)
+scale = Vector2(0.142858, 0.142858)
+texture = ExtResource("65_1wv4k")
+
+[node name="5-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(366, 230)
+scale = Vector2(0.238095, 0.238095)
+texture = ExtResource("65_1wv4k")
+
+[node name="6-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(525, 71)
+scale = Vector2(0.238095, 0.238095)
+texture = ExtResource("65_1wv4k")
+
+[node name="7-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(476, 461)
+scale = Vector2(0.238095, 0.238095)
+texture = ExtResource("65_1wv4k")
+
+[node name="8-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(418, 418)
+scale = Vector2(0.238095, 0.238095)
+texture = ExtResource("65_1wv4k")
+
+[node name="9-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(418, 531)
+scale = Vector2(0.238095, 0.238095)
+texture = ExtResource("65_1wv4k")
+
+[node name="10-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(415, 449)
+scale = Vector2(0.166666, 0.166666)
+texture = ExtResource("65_1wv4k")
+
+[node name="11-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(438, 471)
+scale = Vector2(0.166666, 0.166666)
+texture = ExtResource("65_1wv4k")
+
+[node name="12-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(765, 390)
+scale = Vector2(0.22619, 0.22619)
+texture = ExtResource("65_1wv4k")
+
+[node name="13-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(721, 350)
+scale = Vector2(0.0892863, 0.0892863)
+texture = ExtResource("65_1wv4k")
+
+[node name="14-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(737, 367)
+scale = Vector2(0.0892863, 0.0892863)
+texture = ExtResource("65_1wv4k")
+
+[node name="15-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(572.281, 397.281)
+scale = Vector2(0.224703, 0.224703)
+texture = ExtResource("65_1wv4k")
+
+[node name="16-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(706, 487)
+scale = Vector2(0.224703, 0.224703)
+texture = ExtResource("65_1wv4k")
+
+[node name="17-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(643, 444)
+scale = Vector2(0.224703, 0.224703)
+texture = ExtResource("65_1wv4k")
+
+[node name="18-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(682, 367)
+scale = Vector2(0.224703, 0.224703)
+texture = ExtResource("65_1wv4k")
+
+[node name="19-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(647, 488)
+scale = Vector2(0.224703, 0.224703)
+texture = ExtResource("65_1wv4k")
+
+[node name="20-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(627, 354)
+scale = Vector2(0.224703, 0.224703)
+texture = ExtResource("65_1wv4k")
+
+[node name="21-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(683, 400)
+scale = Vector2(0.224703, 0.224703)
+texture = ExtResource("65_1wv4k")
+
+[node name="22-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(597, 357)
+scale = Vector2(0.159969, 0.159969)
+texture = ExtResource("65_1wv4k")
+
+[node name="23-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(744, 479)
+scale = Vector2(0.159969, 0.159969)
+texture = ExtResource("65_1wv4k")
+
+[node name="24-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(673, 470)
+scale = Vector2(0.159969, 0.159969)
+texture = ExtResource("65_1wv4k")
+
+[node name="25-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(690.82, 479.82)
+scale = Vector2(0.103795, 0.103795)
+texture = ExtResource("65_1wv4k")
+
+[node name="26-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(659.91, 369.91)
+scale = Vector2(0.147136, 0.147136)
+texture = ExtResource("65_1wv4k")
+
+[node name="27-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(669, 505)
+scale = Vector2(0.103795, 0.103795)
+texture = ExtResource("65_1wv4k")
+
+[node name="28-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(776.41, 228.41)
+scale = Vector2(0.266182, 0.266182)
+texture = ExtResource("65_1wv4k")
+
+[node name="29-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(685.603, 338.603)
+scale = Vector2(0.114164, 0.114164)
+texture = ExtResource("65_1wv4k")
+
+[node name="30-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(637, 292)
+scale = Vector2(0.114164, 0.114164)
+texture = ExtResource("65_1wv4k")
+
+[node name="31-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(602, 313)
+scale = Vector2(0.114164, 0.114164)
+texture = ExtResource("65_1wv4k")
+
+[node name="32-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(612, 299)
+scale = Vector2(0.114164, 0.114164)
+texture = ExtResource("65_1wv4k")
+
+[node name="33-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(672, 328)
+scale = Vector2(0.114164, 0.114164)
+texture = ExtResource("65_1wv4k")
+
+[node name="34-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(636, 339)
+scale = Vector2(0.114164, 0.114164)
+texture = ExtResource("65_1wv4k")
+
+[node name="35-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(610, 343)
+scale = Vector2(0.114164, 0.114164)
+texture = ExtResource("65_1wv4k")
+
+[node name="36-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(680, 302)
+scale = Vector2(0.114164, 0.114164)
+texture = ExtResource("65_1wv4k")
+
+[node name="37-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(632, 317)
+scale = Vector2(0.114164, 0.114164)
+texture = ExtResource("65_1wv4k")
+
+[node name="38-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(660, 297)
+scale = Vector2(0.114164, 0.114164)
+texture = ExtResource("65_1wv4k")
+
+[node name="39-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(671, 282)
+scale = Vector2(0.114164, 0.114164)
+texture = ExtResource("65_1wv4k")
+
+[node name="40-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(667, 222)
+scale = Vector2(0.114164, 0.114164)
+texture = ExtResource("65_1wv4k")
+
+[node name="41-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(693, 251)
+scale = Vector2(0.114164, 0.114164)
+texture = ExtResource("65_1wv4k")
+
+[node name="42-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(629, 271)
+scale = Vector2(0.114164, 0.114164)
+texture = ExtResource("65_1wv4k")
+
+[node name="43-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(561, 247)
+scale = Vector2(0.114164, 0.114164)
+texture = ExtResource("65_1wv4k")
+
+[node name="44-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(811, 376)
+scale = Vector2(0.114164, 0.114164)
+texture = ExtResource("65_1wv4k")
+
+[node name="45-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(898, 314)
+scale = Vector2(0.199938, 0.199938)
+texture = ExtResource("65_1wv4k")
+
+[node name="46-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(900.599, 410.599)
+scale = Vector2(0.171398, 0.171398)
+texture = ExtResource("65_1wv4k")
+
+[node name="47-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(927, 430)
+scale = Vector2(0.171398, 0.171398)
+texture = ExtResource("65_1wv4k")
+
+[node name="48-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(797, 371)
+scale = Vector2(0.109509, 0.109509)
+texture = ExtResource("65_1wv4k")
+
+[node name="49-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(978, 354)
+scale = Vector2(0.109509, 0.109509)
+texture = ExtResource("65_1wv4k")
+
+[node name="50-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(939, 400)
+scale = Vector2(0.109509, 0.109509)
+texture = ExtResource("65_1wv4k")
+
+[node name="51-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(742.85, 354.85)
+scale = Vector2(0.149995, 0.149995)
+texture = ExtResource("65_1wv4k")
+
+[node name="52-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(953.713, 354.713)
+scale = Vector2(0.108926, 0.108926)
+texture = ExtResource("65_1wv4k")
+
+[node name="53-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(767, 327)
+scale = Vector2(0.173511, 0.173511)
+texture = ExtResource("65_1wv4k")
+
+[node name="54-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(779.178, 356.178)
+scale = Vector2(0.134374, 0.134374)
+texture = ExtResource("65_1wv4k")
+
+[node name="55-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(795, 317)
+scale = Vector2(0.162426, 0.162426)
+texture = ExtResource("65_1wv4k")
+
+[node name="56-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(931.295, 510.295)
+scale = Vector2(0.22407, 0.22407)
+texture = ExtResource("65_1wv4k")
+
+[node name="57-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(969, 445)
+scale = Vector2(0.183466, 0.183466)
+texture = ExtResource("65_1wv4k")
+
+[node name="58-1" type="Sprite2D" parent="MediaContainer/Print"]
+position = Vector2(1064, 561)
+scale = Vector2(0.183466, 0.183466)
+texture = ExtResource("65_1wv4k")
+
+[node name="Satellite" type="Node2D" parent="MediaContainer"]
+
+[node name="1-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(411, 331)
+scale = Vector2(0.238095, 0.238095)
+texture = ExtResource("66_devao")
+
+[node name="2-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(372, 402)
+scale = Vector2(0.142857, 0.142857)
+texture = ExtResource("66_devao")
+
+[node name="3-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(329, 394)
+scale = Vector2(0.142857, 0.142857)
+texture = ExtResource("66_devao")
+
+[node name="4-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(391, 387)
+scale = Vector2(0.142857, 0.142857)
+texture = ExtResource("66_devao")
+
+[node name="5-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(273.571, 290.5)
+scale = Vector2(0.214286, 0.214286)
+texture = ExtResource("66_devao")
+
+[node name="6-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(464, 166)
+scale = Vector2(0.214286, 0.214286)
+texture = ExtResource("66_devao")
+
+[node name="7-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(424, 460)
+scale = Vector2(0.214286, 0.214286)
+texture = ExtResource("66_devao")
+
+[node name="8-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(460, 427)
+scale = Vector2(0.214286, 0.214286)
+texture = ExtResource("66_devao")
+
+[node name="9-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(456, 529)
+scale = Vector2(0.214286, 0.214286)
+texture = ExtResource("66_devao")
+
+[node name="10-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(403, 468)
+scale = Vector2(0.154762, 0.154762)
+texture = ExtResource("66_devao")
+
+[node name="11-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(438, 494)
+scale = Vector2(0.154762, 0.154762)
+texture = ExtResource("66_devao")
+
+[node name="12-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(720.917, 371.875)
+scale = Vector2(0.196429, 0.196429)
+texture = ExtResource("66_devao")
+
+[node name="13-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(711.443, 351.469)
+scale = Vector2(0.0729163, 0.0729163)
+texture = ExtResource("66_devao")
+
+[node name="14-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(732, 356)
+scale = Vector2(0.0729163, 0.0729163)
+texture = ExtResource("66_devao")
+
+[node name="15-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(643.341, 399.234)
+scale = Vector2(0.179315, 0.179315)
+texture = ExtResource("66_devao")
+
+[node name="16-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(741, 422)
+scale = Vector2(0.179315, 0.179315)
+texture = ExtResource("66_devao")
+
+[node name="17-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(681, 453)
+scale = Vector2(0.179315, 0.179315)
+texture = ExtResource("66_devao")
+
+[node name="18-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(707, 387)
+scale = Vector2(0.179315, 0.179315)
+texture = ExtResource("66_devao")
+
+[node name="19-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(664, 524)
+scale = Vector2(0.179315, 0.179315)
+texture = ExtResource("66_devao")
+
+[node name="20-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(597, 373)
+scale = Vector2(0.179315, 0.179315)
+texture = ExtResource("66_devao")
+
+[node name="21-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(701, 429)
+scale = Vector2(0.179315, 0.179315)
+texture = ExtResource("66_devao")
+
+[node name="22-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(581, 374)
+scale = Vector2(0.113468, 0.113468)
+texture = ExtResource("66_devao")
+
+[node name="23-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(732, 484)
+scale = Vector2(0.113468, 0.113468)
+texture = ExtResource("66_devao")
+
+[node name="24-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(647, 457)
+scale = Vector2(0.113468, 0.113468)
+texture = ExtResource("66_devao")
+
+[node name="25-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(683, 486)
+scale = Vector2(0.0805445, 0.0805445)
+texture = ExtResource("66_devao")
+
+[node name="26-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(670, 381)
+scale = Vector2(0.142858, 0.142858)
+texture = ExtResource("66_devao")
+
+[node name="27-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(676, 496)
+scale = Vector2(0.0805445, 0.0805445)
+texture = ExtResource("66_devao")
+
+[node name="28-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(884.343, 176.327)
+scale = Vector2(0.270136, 0.270136)
+texture = ExtResource("66_devao")
+
+[node name="29-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(704.562, 334.582)
+scale = Vector2(0.115154, 0.115154)
+texture = ExtResource("66_devao")
+
+[node name="30-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(624, 303)
+scale = Vector2(0.115154, 0.115154)
+texture = ExtResource("66_devao")
+
+[node name="31-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(626, 326)
+scale = Vector2(0.115154, 0.115154)
+texture = ExtResource("66_devao")
+
+[node name="32-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(599, 274)
+scale = Vector2(0.115154, 0.115154)
+texture = ExtResource("66_devao")
+
+[node name="33-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(655, 324)
+scale = Vector2(0.115154, 0.115154)
+texture = ExtResource("66_devao")
+
+[node name="34-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(649, 347)
+scale = Vector2(0.115154, 0.115154)
+texture = ExtResource("66_devao")
+
+[node name="35-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(597, 329)
+scale = Vector2(0.115154, 0.115154)
+texture = ExtResource("66_devao")
+
+[node name="36-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(714, 311)
+scale = Vector2(0.115154, 0.115154)
+texture = ExtResource("66_devao")
+
+[node name="37-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(681, 324)
+scale = Vector2(0.115154, 0.115154)
+texture = ExtResource("66_devao")
+
+[node name="38-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(670, 306)
+scale = Vector2(0.115154, 0.115154)
+texture = ExtResource("66_devao")
+
+[node name="39-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(693, 295)
+scale = Vector2(0.115154, 0.115154)
+texture = ExtResource("66_devao")
+
+[node name="40-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(659, 267)
+scale = Vector2(0.115154, 0.115154)
+texture = ExtResource("66_devao")
+
+[node name="41-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(685, 213)
+scale = Vector2(0.115154, 0.115154)
+texture = ExtResource("66_devao")
+
+[node name="42-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(650, 229)
+scale = Vector2(0.115154, 0.115154)
+texture = ExtResource("66_devao")
+
+[node name="43-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(571, 235)
+scale = Vector2(0.115154, 0.115154)
+texture = ExtResource("66_devao")
+
+[node name="44-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(818, 398)
+scale = Vector2(0.115154, 0.115154)
+texture = ExtResource("66_devao")
+
+[node name="45-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(846.876, 335.791)
+scale = Vector2(0.200434, 0.200434)
+texture = ExtResource("66_devao")
+
+[node name="46-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(871.898, 381.948)
+scale = Vector2(0.145346, 0.145346)
+texture = ExtResource("66_devao")
+
+[node name="47-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(896, 449)
+scale = Vector2(0.145346, 0.145346)
+texture = ExtResource("66_devao")
+
+[node name="48-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(806, 361)
+scale = Vector2(0.0964826, 0.0964826)
+texture = ExtResource("66_devao")
+
+[node name="49-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(996, 304)
+scale = Vector2(0.0964826, 0.0964826)
+texture = ExtResource("66_devao")
+
+[node name="50-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(947, 424)
+scale = Vector2(0.0964826, 0.0964826)
+texture = ExtResource("66_devao")
+
+[node name="51-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(765.966, 351.987)
+scale = Vector2(0.143481, 0.143481)
+texture = ExtResource("66_devao")
+
+[node name="52-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(955, 344)
+scale = Vector2(0.0955498, 0.0955498)
+texture = ExtResource("66_devao")
+
+[node name="53-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(796, 341)
+scale = Vector2(0.154839, 0.154839)
+texture = ExtResource("66_devao")
+
+[node name="54-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(779, 367)
+scale = Vector2(0.101229, 0.101229)
+texture = ExtResource("66_devao")
+
+[node name="55-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(816, 300)
+scale = Vector2(0.166667, 0.166667)
+texture = ExtResource("66_devao")
+
+[node name="56-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(1004, 524)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("66_devao")
+
+[node name="57-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(991, 460)
+scale = Vector2(0.172619, 0.172619)
+texture = ExtResource("66_devao")
+
+[node name="58-2" type="Sprite2D" parent="MediaContainer/Satellite"]
+position = Vector2(1078, 554)
+scale = Vector2(0.172619, 0.172619)
+texture = ExtResource("66_devao")
+
+[node name="Social" type="Node2D" parent="MediaContainer"]
+
+[node name="1-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(296, 335)
+scale = Vector2(0.238095, 0.238095)
+texture = ExtResource("67_smntn")
+
+[node name="2-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(384.992, 408.357)
+scale = Vector2(0.146826, 0.146826)
+texture = ExtResource("67_smntn")
+
+[node name="3-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(376, 392)
+scale = Vector2(0.146826, 0.146826)
+texture = ExtResource("67_smntn")
+
+[node name="4-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(410, 393)
+scale = Vector2(0.146826, 0.146826)
+texture = ExtResource("67_smntn")
+
+[node name="5-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(445.948, 296.321)
+scale = Vector2(0.24008, 0.24008)
+texture = ExtResource("67_smntn")
+
+[node name="6-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(538, 204)
+scale = Vector2(0.24008, 0.24008)
+texture = ExtResource("67_smntn")
+
+[node name="7-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(468, 514)
+scale = Vector2(0.24008, 0.24008)
+texture = ExtResource("67_smntn")
+
+[node name="8-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(398, 444)
+scale = Vector2(0.24008, 0.24008)
+texture = ExtResource("67_smntn")
+
+[node name="9-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(422, 589)
+scale = Vector2(0.24008, 0.24008)
+texture = ExtResource("67_smntn")
+
+[node name="10-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(420.291, 482.42)
+scale = Vector2(0.143355, 0.143355)
+texture = ExtResource("67_smntn")
+
+[node name="11-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(452, 486)
+scale = Vector2(0.143355, 0.143355)
+texture = ExtResource("67_smntn")
+
+[node name="12-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(727, 400)
+scale = Vector2(0.182789, 0.182789)
+texture = ExtResource("67_smntn")
+
+[node name="13-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(707, 365)
+scale = Vector2(0.0913944, 0.0913944)
+texture = ExtResource("67_smntn")
+
+[node name="14-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(720, 360)
+scale = Vector2(0.0913944, 0.0913944)
+texture = ExtResource("67_smntn")
+
+[node name="15-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(615, 424)
+scale = Vector2(0.212364, 0.212364)
+texture = ExtResource("67_smntn")
+
+[node name="16-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(696, 447)
+scale = Vector2(0.212364, 0.212364)
+texture = ExtResource("67_smntn")
+
+[node name="17-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(666, 395)
+scale = Vector2(0.212364, 0.212364)
+texture = ExtResource("67_smntn")
+
+[node name="18-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(682, 386)
+scale = Vector2(0.212364, 0.212364)
+texture = ExtResource("67_smntn")
+
+[node name="19-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(695, 509)
+scale = Vector2(0.212364, 0.212364)
+texture = ExtResource("67_smntn")
+
+[node name="20-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(622, 389)
+scale = Vector2(0.212364, 0.212364)
+texture = ExtResource("67_smntn")
+
+[node name="21-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(701, 411)
+scale = Vector2(0.212364, 0.212364)
+texture = ExtResource("67_smntn")
+
+[node name="22-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(568, 386)
+scale = Vector2(0.133959, 0.133959)
+texture = ExtResource("67_smntn")
+
+[node name="23-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(733, 501)
+scale = Vector2(0.133959, 0.133959)
+texture = ExtResource("67_smntn")
+
+[node name="24-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(658, 478)
+scale = Vector2(0.133959, 0.133959)
+texture = ExtResource("67_smntn")
+
+[node name="25-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(693, 494)
+scale = Vector2(0.133959, 0.133959)
+texture = ExtResource("67_smntn")
+
+[node name="26-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(643.971, 378.206)
+scale = Vector2(0.178089, 0.178089)
+texture = ExtResource("67_smntn")
+
+[node name="27-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(670.548, 488.449)
+scale = Vector2(0.141744, 0.141744)
+texture = ExtResource("67_smntn")
+
+[node name="28-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(987.281, 225.776)
+scale = Vector2(0.265316, 0.265316)
+texture = ExtResource("67_smntn")
+
+[node name="29-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(723, 343)
+scale = Vector2(0.132658, 0.132658)
+texture = ExtResource("67_smntn")
+
+[node name="30-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(647, 301)
+scale = Vector2(0.132658, 0.132658)
+texture = ExtResource("67_smntn")
+
+[node name="31-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(610, 329)
+scale = Vector2(0.132658, 0.132658)
+texture = ExtResource("67_smntn")
+
+[node name="32-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(587, 298)
+scale = Vector2(0.132658, 0.132658)
+texture = ExtResource("67_smntn")
+
+[node name="33-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(672, 347)
+scale = Vector2(0.132658, 0.132658)
+texture = ExtResource("67_smntn")
+
+[node name="34-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(637, 323)
+scale = Vector2(0.132658, 0.132658)
+texture = ExtResource("67_smntn")
+
+[node name="35-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(589, 345)
+scale = Vector2(0.132658, 0.132658)
+texture = ExtResource("67_smntn")
+
+[node name="36-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(693, 316)
+scale = Vector2(0.132658, 0.132658)
+texture = ExtResource("67_smntn")
+
+[node name="37-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(663, 312)
+scale = Vector2(0.132658, 0.132658)
+texture = ExtResource("67_smntn")
+
+[node name="38-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(672, 294)
+scale = Vector2(0.132658, 0.132658)
+texture = ExtResource("67_smntn")
+
+[node name="39-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(682, 272)
+scale = Vector2(0.132658, 0.132658)
+texture = ExtResource("67_smntn")
+
+[node name="40-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(647, 249)
+scale = Vector2(0.132658, 0.132658)
+texture = ExtResource("67_smntn")
+
+[node name="41-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(671, 253)
+scale = Vector2(0.132658, 0.132658)
+texture = ExtResource("67_smntn")
+
+[node name="42-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(681, 204)
+scale = Vector2(0.132658, 0.132658)
+texture = ExtResource("67_smntn")
+
+[node name="43-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(549, 236)
+scale = Vector2(0.132658, 0.132658)
+texture = ExtResource("67_smntn")
+
+[node name="44-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(834, 389)
+scale = Vector2(0.132658, 0.132658)
+texture = ExtResource("67_smntn")
+
+[node name="45-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(923.111, 364)
+scale = Vector2(0.166667, 0.166667)
+texture = ExtResource("67_smntn")
+
+[node name="46-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(876.763, 402)
+scale = Vector2(0.166668, 0.166668)
+texture = ExtResource("67_smntn")
+
+[node name="47-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(935, 447)
+scale = Vector2(0.166668, 0.166668)
+texture = ExtResource("67_smntn")
+
+[node name="48-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(785, 375)
+scale = Vector2(0.111111, 0.111111)
+texture = ExtResource("67_smntn")
+
+[node name="49-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(999, 329)
+scale = Vector2(0.111111, 0.111111)
+texture = ExtResource("67_smntn")
+
+[node name="50-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(949, 414)
+scale = Vector2(0.111111, 0.111111)
+texture = ExtResource("67_smntn")
+
+[node name="51-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(766.778, 370)
+scale = Vector2(0.166667, 0.166667)
+texture = ExtResource("67_smntn")
+
+[node name="52-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(960, 351)
+scale = Vector2(0.0833334, 0.0833334)
+texture = ExtResource("67_smntn")
+
+[node name="53-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(819, 333)
+scale = Vector2(0.180557, 0.180557)
+texture = ExtResource("67_smntn")
+
+[node name="54-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(799, 351)
+scale = Vector2(0.145834, 0.145834)
+texture = ExtResource("67_smntn")
+
+[node name="55-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(748.84, 308.688)
+scale = Vector2(0.184029, 0.184029)
+texture = ExtResource("67_smntn")
+
+[node name="56-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(974, 487)
+scale = Vector2(0.25868, 0.25868)
+texture = ExtResource("67_smntn")
+
+[node name="57-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(1010.38, 461.672)
+scale = Vector2(0.184896, 0.184896)
+texture = ExtResource("67_smntn")
+
+[node name="58-3" type="Sprite2D" parent="MediaContainer/Social"]
+position = Vector2(1087, 540)
+scale = Vector2(0.184896, 0.184896)
+texture = ExtResource("67_smntn")

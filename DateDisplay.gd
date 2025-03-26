@@ -3,6 +3,10 @@ extends Control
 @onready var date_label = $DateLabel
 @onready var timer = $Timer
 
+var total_elapsed_days = 0
+
+signal day_changed(current_day)
+
 # Game start date (locks the year to 1970, keeps real-world day/month)
 var game_date = Time.get_datetime_dict_from_system()
 var game_speed = 1.0  # Time speed (1.0 = normal, lower = slower, higher = faster)
@@ -22,6 +26,12 @@ var month_names = {
 func _ready():
 	# Lock the year to 1970
 	game_date["year"] = 1970
+	
+	# Reset the starting day and month
+	game_date["day"] = 1
+	game_date["month"] = 1
+	total_elapsed_days = 0
+
 
 	# Validate nodes before using
 	if date_label == null:
@@ -35,40 +45,38 @@ func _ready():
 	# Update the display
 	update_date_label()
 	
-	# Start the date timer
-	timer.wait_time = game_speed
-	timer.timeout.connect(_on_timer_timeout)
-	timer.start()
-
 func _on_timer_timeout():
-	# Increment the day
+	# Increment both day counters
 	game_date["day"] += 1
+	total_elapsed_days += 1
 
-	# Check for leap years (1972, 1976, etc.)
-	if game_date["year"] % 4 == 0:
-		days_per_month[2] = 29  # February has 29 days in leap years
-	else:
-		days_per_month[2] = 28  # Normal years
-
-	# Handle month/year rollover
+	# Check for month rollover
 	if game_date["day"] > days_per_month.get(game_date["month"], 31):
 		game_date["day"] = 1
 		game_date["month"] += 1
 
-		# Handle year rollover (Always stays in 1970s)
+		# Handle year rollover (Now allows years to progress)
 		if game_date["month"] > 12:
 			game_date["month"] = 1
-			game_date["year"] = 1970  # Always stays in the 1970s
+			game_date["year"] += 1  # Allow year to increment
 
-	# Update UI
+	# Update UI first
 	update_date_label()
+	
+	# Emit signal with total elapsed days
+	emit_signal("day_changed", total_elapsed_days)
 
 func update_date_label():
 	if date_label:
-		date_label.text = "%02d %s %d" % [game_date["day"], month_names.get(game_date["month"], "???"), game_date["year"]]
+		# Show both calendar date and total elapsed days
+		date_label.text = "%02d %s %d (Day %d)" % [
+			game_date["day"], 
+			month_names.get(game_date["month"], "???"), 
+			game_date["year"],
+			total_elapsed_days
+		]
 	else:
 		push_error("❌ ERROR: Cannot update DateLabel (node is missing).")
-
 func set_game_speed(speed: float):
 	game_speed = speed
 	if timer:
@@ -76,3 +84,12 @@ func set_game_speed(speed: float):
 		timer.start()
 	else:
 		push_error("❌ ERROR: Timer not found! Cannot change speed.")
+
+func start_date_timer():
+	if timer:
+		timer.wait_time = game_speed
+		if not timer.timeout.is_connected(_on_timer_timeout):
+			timer.timeout.connect(_on_timer_timeout)
+		timer.start()
+	else:
+		push_error("❌ ERROR: Timer not found! Cannot start date timer.")
