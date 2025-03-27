@@ -11,6 +11,8 @@ signal day_changed(current_day)
 var game_date = Time.get_datetime_dict_from_system()
 var game_speed = 1.0  # Time speed (1.0 = normal, lower = slower, higher = faster)
 
+
+
 # Days in each month (auto-updates for leap years)
 var days_per_month = { 
 	1: 31, 2: 28, 3: 31, 4: 30, 5: 31, 6: 30,
@@ -24,12 +26,16 @@ var month_names = {
 }
 
 func _ready():
+	
+	# Get current system date
+	var current_date = Time.get_datetime_dict_from_system()
+	
 	# Lock the year to 1970
-	game_date["year"] = 1970
+	game_date["year"] = 1990
 	
 	# Reset the starting day and month
-	game_date["day"] = 1
-	game_date["month"] = 1
+	game_date["day"] = current_date["day"]
+	game_date["month"] = current_date["month"]
 	total_elapsed_days = 0
 
 
