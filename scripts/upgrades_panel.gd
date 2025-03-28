@@ -1,7 +1,20 @@
-extends Panel
+extends Panel  # Change from Node2D to Panel
 
-signal upgrade_purchased(upgrade_name, category, cost)
+signal upgrade_purchased(upgrade_name, believability, exposure, influence, cost)
 
+# Update the signal emission in _on_upgrade_button_pressed
+func _on_upgrade_button_pressed(upgrade_name: String, category: String, data: Dictionary):
+	if purchased_upgrades[category][upgrade_name]:
+		return
+		
+	emit_signal("upgrade_purchased", upgrade_name, data["believability"], 
+				data["exposure"], data["influence"], data["cost"])
+	
+	# Update the purchased state after successful emission
+	purchased_upgrades[category][upgrade_name] = true
+
+# Move purchased_upgrades declaration to the top with other variables
+var purchased_upgrades = {}
 var upgrades = {
 	"spreading_power": {
 		"Convincing Lies": {
@@ -78,7 +91,7 @@ var upgrades = {
 		},
 		"Podcast Manipulation": {
 			"description": "Use popular podcast influencers to discuss and promote your theory.",
-			"believability": 2.0,
+			"believability": 0.0,
 			"exposure": 2.0,
 			"influence": 0.0,
 			"cost": 7
@@ -138,36 +151,85 @@ var upgrades = {
 }
 
 func _ready():
-	setup_upgrade_buttons()
-	initialize_purchased_upgrades()
-
-func setup_upgrade_buttons():
-	for category in upgrades:
-		var category_container = get_node(category.capitalize())
-		if category_container:
-			for upgrade_name in upgrades[category]:
-				create_upgrade_button(category_container, upgrade_name, upgrades[category][upgrade_name])
-
-# Add at the top with other variables
-var purchased_upgrades = {}
+	initialize_purchased_upgrades()  # Initialize first
+	setup_upgrade_buttons()          # Then setup buttons
+	$CloseButton.pressed.connect(_on_close_button_pressed)
 
 func initialize_purchased_upgrades():
+	purchased_upgrades.clear()  # Clear any existing data
 	for category in upgrades:
 		purchased_upgrades[category] = {}
 		for upgrade_name in upgrades[category]:
 			purchased_upgrades[category][upgrade_name] = false
 
-func create_upgrade_button(container: Control, upgrade_name: String, data: Dictionary):
-	var button = Button.new()
+func setup_upgrade_buttons():
+	for category in upgrades:
+		# Get the correct container based on dictionary key
+		var container_name = ""
+		match category:
+			"spreading_power": container_name = "SpreadingPower"
+			"media_control": container_name = "MediaControl"
+			"government_resistance": container_name = "GovernmentResistance"
+		
+		var category_container = $CategoryContainer.get_node(container_name)
+		if category_container:
+			# Create buttons for all upgrades in this category
+			var upgrade_names = upgrades[category].keys()
+			for i in range(upgrade_names.size()):
+				var upgrade_name = upgrade_names[i]
+				var button_name = "UpgradeButton" + str(i + 1)
+				
+				# Get or create button
+				var button = category_container.get_node_or_null(button_name)
+				if not button:
+					button = Button.new()
+					button.name = button_name
+					category_container.add_child(button)
+				
+				setup_button(button, category, upgrade_name, upgrades[category][upgrade_name])
+
+func setup_button(button: Button, category: String, upgrade_name: String, data: Dictionary):
 	button.text = upgrade_name + "\nCost: " + str(data["cost"]) + " 💰"
+	
+	# Enhanced tooltip setup
 	button.tooltip_text = data["description"]
-	button.custom_minimum_size = Vector2(200, 80)
+	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	button.focus_mode = Control.FOCUS_ALL
 	
-	# Add purchased state visual
-	if purchased_upgrades[category][upgrade_name]:
-		button.disabled = true
-		button.text += "\n(Purchased)"
+	# Tooltip customization
+	var tooltip_style = StyleBoxFlat.new()
+	tooltip_style.bg_color = Color(1, 1, 1, 0.95)  # White background
+	tooltip_style.border_color = Color(0.2, 0.2, 0.2)
+	tooltip_style.border_width_left = 1
+	tooltip_style.border_width_right = 1
+	tooltip_style.border_width_top = 1
+	tooltip_style.border_width_bottom = 1
+	tooltip_style.corner_radius_top_left = 4
+	tooltip_style.corner_radius_top_right = 4
+	tooltip_style.corner_radius_bottom_left = 4
+	tooltip_style.corner_radius_bottom_right = 4
+	tooltip_style.content_margin_left = 8
+	tooltip_style.content_margin_right = 8
+	tooltip_style.content_margin_top = 8
+	tooltip_style.content_margin_bottom = 8
 	
+	button.add_theme_stylebox_override("tooltip", tooltip_style)
+	button.add_theme_color_override("tooltip_font_color", Color(0, 0, 0))  # Black text
+	button.add_theme_font_size_override("tooltip_font_size", 16)  # Slightly larger font
+	
+	# Get wallet reference safely
+	var wallet_nodes = get_tree().get_nodes_in_group("wallet")
+	var current_coins = 0
+	
+	# Clear any existing connections to prevent duplicates
+	if button.pressed.is_connected(Callable(self, "_on_upgrade_button_pressed")):
+		button.pressed.disconnect(Callable(self, "_on_upgrade_button_pressed"))
+	
+	# Check if wallet exists and get coins
+	if not wallet_nodes.is_empty():
+		current_coins = wallet_nodes[0].get_coins()
+	
+	# Add stats to button text
 	var stats = []
 	if data["believability"] > 0:
 		stats.append("Believability: +" + str(data["believability"]))
@@ -176,14 +238,20 @@ func create_upgrade_button(container: Control, upgrade_name: String, data: Dicti
 	if data["influence"] > 0:
 		stats.append("Influence: +" + str(data["influence"]))
 	
-	if not stats.empty():
+	if not stats.is_empty():
 		button.text += "\n" + "\n".join(stats)
 	
 	button.pressed.connect(_on_upgrade_button_pressed.bind(upgrade_name, category, data))
-	container.add_child(button)
 
-func _on_upgrade_button_pressed(upgrade_name: String, category: String, data: Dictionary):
-	if purchased_upgrades[category][upgrade_name]:
-		return
-		
-	emit_signal("upgrade_purchased", upgrade_name, data["believability"], data["exposure"], data["influence"], data["cost"])
+# Add this helper function at the bottom of the script
+func create_stylebox(color: Color) -> StyleBoxFlat:
+	var style = StyleBoxFlat.new()
+	style.bg_color = color
+	style.corner_radius_top_left = 5
+	style.corner_radius_top_right = 5
+	style.corner_radius_bottom_left = 5
+	style.corner_radius_bottom_right = 5
+	return style
+
+func _on_close_button_pressed():
+	visible = false

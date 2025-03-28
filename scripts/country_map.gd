@@ -54,6 +54,10 @@ var government_start_days = 0
 var government_progress = 0.0
 var base_government_speed = 0.05  # Base progress per day (0.05%)
 
+
+@onready var upgrades_panel = $CanvasLayer/UpgradesPanel/UpgradesPanel  # Update the path to point to the actual Panel node
+@onready var upgrade_button = $UpgradeButton
+
 # At the top with other variables
 @onready var countries_data = preload("res://scripts/countries_data.gd").new()
 
@@ -120,6 +124,12 @@ func _ready():
 	government_bar.max_value = 100
 	government_bar.value = 0
 	initialize_government_timing()
+	
+	# Remove duplicate connections and keep only one
+	upgrade_button.pressed.connect(_on_upgrade_button_pressed)
+	# Connect to the panel itself, not its parent
+	upgrades_panel.upgrade_purchased.connect(_on_upgrade_purchased)
+	upgrades_panel.visible = false
 	
 func show_stats_panel():
 	country_info_panel.visible = false
@@ -493,14 +503,14 @@ func connect_media_to_media(source_country: String, target_country: String, medi
 			if not is_media_connected(country, media_type):
 				unconnected.append(country)
 		
-		print("\n🔍 Remaining unconnected countries for " + media_type + " (" + 
-			  str(unconnected.size()) + "):")
-		print(unconnected)
-		print("------------------------")
+		if not unconnected.is_empty():  # Changed from empty() to is_empty()
+			print("\n🔍 Remaining unconnected countries for " + media_type + " (" + 
+				  str(unconnected.size()) + "):")
+			print(unconnected)
+			print("------------------------")
 	else:
 		print("⏳ Cannot connect - media not visible or not found for " + media_type + 
 			  " between " + source_country + " and " + target_country)
-
 # Modify calculate_spread_target for better spread mechanics
 func calculate_spread_target(source_number: int, media_type: String) -> int:
 	match media_type:
@@ -805,3 +815,23 @@ func update_stats_display():
 	believability_value.text = str(floorf(believability_bar.value)) + "%"
 	exposure_value.text = str(floorf(global_followers)) + "%"
 	total_followers_bar.value = global_followers
+	
+func _on_upgrade_button_pressed():
+	upgrades_panel.visible = !upgrades_panel.visible
+
+func _on_upgrade_purchased(upgrade_name: String, believability: float, exposure: float, influence: float, cost: int):
+	var wallet = get_tree().get_nodes_in_group("wallet")[0]
+	if wallet.spend_coins(cost):
+		# Apply upgrades and update labels
+		believability_bar.value += believability
+		exposure_bar.value += exposure
+		influence_bar.value += influence
+		
+		# Update the value labels
+		believability_value.text = str(believability_bar.value)
+		exposure_value.text = str(exposure_bar.value)
+		influence_value.text = str(influence_bar.value)
+		
+		print("✅ Purchased upgrade: " + upgrade_name)
+	else:
+		print("❌ Not enough coins for: " + upgrade_name)
