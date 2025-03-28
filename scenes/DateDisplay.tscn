@@ -19,6 +19,7 @@ scale = Vector2(0.739316, 0.798611)
 texture = ExtResource("2_hsmcf")
 
 [node name="Calender" type="Label" parent="."]
+layout_mode = 0
 offset_left = 31.0
 offset_top = 2.0
 offset_right = 179.0

@@ -17,6 +17,7 @@ offset_bottom = 40.0
 script = ExtResource("1_d7vcy")
 
 [node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("2_w6uia")
@@ -49,6 +50,7 @@ position = Vector2(1091, 615)
 texture = ExtResource("8_ecbtr")
 
 [node name="MessageBox" type="Label" parent="."]
+layout_mode = 0
 offset_left = 494.0
 offset_top = 350.0
 offset_right = 1598.0

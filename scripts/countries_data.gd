@@ -798,5 +798,5 @@ func set_media_connected(country_name: String, media_type: String, connected: bo
 
 func update_followers(country_name: String, new_followers: String) -> void:
 	if countries.has(country_name):
-		print("📝 Updating " + country_name + " followers from " + str(countries[country_name]["Followers"]) + " to " + new_followers)
+		#print("📝 Updating " + country_name + " followers from " + str(countries[country_name]["Followers"]) + " to " + new_followers)
 		countries[country_name]["Followers"] = new_followers

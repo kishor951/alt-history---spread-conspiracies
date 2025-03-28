@@ -1,4 +1,4 @@
-[gd_scene load_steps=86 format=3 uid="uid://wtwwvwxm6ei8"]
+[gd_scene load_steps=92 format=3 uid="uid://wtwwvwxm6ei8"]
 
 [ext_resource type="Script" path="res://scripts/country_map.gd" id="1_qo87q"]
 [ext_resource type="Texture2D" uid="uid://cfvmlh1bceh0w" path="res://assets/images/countries_new/Brazil.png" id="3_aluyu"]
@@ -68,6 +68,7 @@
 [ext_resource type="Texture2D" uid="uid://cou52m7so6bvf" path="res://assets/icons/Hub.png" id="64_33hax"]
 [ext_resource type="Texture2D" uid="uid://csdf0bga44pg5" path="res://assets/backgrounds/Rectangle 19.png" id="64_khfi6"]
 [ext_resource type="Texture2D" uid="uid://tuv0c1pryihk" path="res://assets/icons/print.png" id="65_1wv4k"]
+[ext_resource type="FontFile" uid="uid://dfy4ntjfyj8w0" path="res://assets/fonts/Manrope-VariableFont_wght.ttf" id="66_bd1l0"]
 [ext_resource type="Texture2D" uid="uid://be1fej7x4k2p5" path="res://assets/icons/satellite.png" id="66_devao"]
 [ext_resource type="Texture2D" uid="uid://cawhfkouc3s1t" path="res://assets/icons/social.png" id="67_smntn"]
 [ext_resource type="PackedScene" uid="uid://cycun37wb46ae" path="res://scenes/CoinsDisplay.tscn" id="68_tqd62"]
@@ -77,12 +78,21 @@
 [ext_resource type="Texture2D" uid="uid://c6t83muw286yl" path="res://assets/backgrounds/Rectangle 62.png" id="72_otoj3"]
 [ext_resource type="Texture2D" uid="uid://cn26kyhbr6cdl" path="res://assets/backgrounds/Rectangle 60.png" id="72_p8jsl"]
 [ext_resource type="Texture2D" uid="uid://b1ixuh44lspkr" path="res://assets/backgrounds/Rectangle 68.png" id="77_kgfjd"]
+[ext_resource type="AudioStream" uid="uid://dkmnuvkck5484" path="res://assets/sounds/conspiracy-theory-255714 (1).mp3" id="78_r4p2h"]
+[ext_resource type="AudioStream" uid="uid://newc1748m77q" path="res://assets/sounds/switched-170188.mp3" id="79_57s1w"]
+[ext_resource type="AudioStream" uid="uid://my2shq60tro6" path="res://assets/sounds/mouse-click-sound-233951.mp3" id="80_lxg5p"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jrqga"]
 texture = ExtResource("63_g4xd8")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7abhr"]
 texture = ExtResource("64_khfi6")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_g2es2"]
+texture = ExtResource("77_kgfjd")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7ds7i"]
+texture = ExtResource("72_p8jsl")
 
 [sub_resource type="Theme" id="Theme_cev7u"]
 
@@ -601,6 +611,40 @@ offset_bottom = 72.0
 text = "Summary"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="ResultPanel" type="Panel" parent="CanvasLayer"]
+visible = false
+z_index = 150
+layout_mode = 0
+offset_left = 3.0
+offset_right = 1279.0
+offset_bottom = 721.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_g2es2")
+
+[node name="ResultText" type="Label" parent="CanvasLayer/ResultPanel"]
+layout_mode = 0
+offset_left = 85.0
+offset_top = 233.0
+offset_right = 1198.0
+offset_bottom = 547.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("66_bd1l0")
+theme_override_font_sizes/font_size = 54
+text = "Game Over!
+The government has stopped your conspiracy!"
+horizontal_alignment = 1
+
+[node name="ReplayButton" type="Button" parent="CanvasLayer/ResultPanel"]
+layout_mode = 0
+offset_left = 425.0
+offset_top = 471.0
+offset_right = 515.0
+offset_bottom = 502.0
+scale = Vector2(4.75632, 3.92995)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/normal = SubResource("StyleBoxTexture_7ds7i")
+text = "Restart"
 
 [node name="UpgradesPanel" type="Node2D" parent="CanvasLayer"]
 position = Vector2(0, 1)
@@ -1599,3 +1643,14 @@ offset_right = 1158.0
 offset_bottom = 591.0
 scale = Vector2(1.72, 1.75865)
 text = "INVESTIGATION"
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("78_r4p2h")
+volume_db = -10.0
+parameters/looping = true
+
+[node name="ActivationSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("79_57s1w")
+
+[node name="CountryClickSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("80_lxg5p")

@@ -1,6 +1,6 @@
 extends Node2D
 
-var coins = 50  # Starting coins
+var coins = 5  # Starting coins
 
 @onready var coins_label = $CoinsLabel
 

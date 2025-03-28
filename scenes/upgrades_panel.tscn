@@ -28,6 +28,7 @@ scale = Vector2(3.4, 3.4)
 text = "UPGRADES"
 
 [node name="Label2" type="Label" parent="."]
+layout_mode = 0
 offset_left = 285.0
 offset_top = 128.0
 offset_right = 405.0
@@ -122,6 +123,7 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_fxaj8")
 text = "Back"
 
 [node name="Label3" type="Label" parent="."]
+layout_mode = 0
 offset_left = 854.0
 offset_top = 126.0
 offset_right = 1026.0

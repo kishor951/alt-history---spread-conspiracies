@@ -23,6 +23,8 @@ signal day_changed(day)
 
 @onready var animation_player = $CountriesContainer/AnimationPlayer
 
+@onready var background_music = $BackgroundMusic
+
 # For date calling from the DateDisplay.gd
 @onready var date_display = $Calender/DateDisplay
 
@@ -40,28 +42,35 @@ var info_panel_timer: Timer
 
 var button_offset := Vector2(0, -10)
 
+@onready var activation_sound = $ActivationSound
+@onready var country_click_sound = $CountryClickSound
+
 var global_followers = 0.0
 var global_population = 0
-var conversion_rate_base = 0.01  # 0.01% base conversion per day
+var conversion_rate_base = 0.05  # 0.01% base conversion per day
 var media_multipliers = {
 	"Print": 1.0,
 	"Satellite": 1.5,
 	"Social": 2.0
 }
 
-@onready var government_bar = $"GovernmentBar"
-var government_start_days = 0
-var government_progress = 0.0
-var base_government_speed = 0.05  # Base progress per day (0.05%)
+# Add at the top with other @onready vars
+@onready var result_panel = $CanvasLayer/ResultPanel
+@onready var result_text = $CanvasLayer/ResultPanel/ResultText
+@onready var replay_button = $CanvasLayer/ResultPanel/ReplayButton
 
+@onready var government_bar = $"GovernmentBar"
+var government_start_days = 0 #
+var government_progress = 0.0
+var base_government_speed = 0.15  # Base progress per day (0.05%)
 
 @onready var upgrades_panel = $CanvasLayer/UpgradesPanel/UpgradesPanel  # Update the path to point to the actual Panel node
 @onready var upgrade_button = $UpgradeButton
 
-# At the top with other variables
+#At the top with other variables
 @onready var countries_data = preload("res://scripts/countries_data.gd").new()
 
-# Replace direct dictionary access with method calls
+#Replace direct dictionary access with method calls
 @onready var background = $EarthBackground  # Add this with your other @onready vars
 
 func _ready():
@@ -135,6 +144,11 @@ func _ready():
 	upgrades_panel.gui_input.connect(_on_upgrades_panel_gui_input)
 	upgrades_panel.visible = false
 
+	result_panel.visible = false
+
+	if replay_button:
+		replay_button.pressed.connect(_on_replay_button_pressed)
+
 func _on_upgrades_panel_gui_input(event: InputEvent):
 	if event is InputEventMouseButton:
 		get_viewport().set_input_as_handled()
@@ -179,7 +193,6 @@ func _on_day_changed(total_days):
 	update_followers_conversion()
 	update_global_stats()
 	update_government_progress(total_days)
-	update_followers_conversion()
 	update_global_stats()
 
 # Modify attempt_media_spread function to check visibility
@@ -216,11 +229,13 @@ func schedule_next_spread(country_name: String):
 	var timer = Timer.new()
 	add_child(timer)
 	timer.one_shot = true
-	var base_time = 15.0  # Base time in seconds
-	timer.wait_time = base_time * randf_range(1.0, 2.0)  # Random variation
+	# Base time reduced by exposure (0-30 range)
+	var exposure_factor = 1.0 - (exposure_bar.value / 30.0) * 0.7  # Up to 70% reduction
+	var base_time = 15.0 * exposure_factor  # Base time affected by exposure
+	
+	timer.wait_time = base_time * randf_range(1.0, 2.0)
 	timer.timeout.connect(func(): attempt_media_spread(country_name))
 	timer.start()
-	#print("⏰ Next spread from " + country_name + " scheduled in " + str(timer.wait_time) + " seconds")
 
 func _input(event):
 	if event is InputEventMouseButton and event.pressed:
@@ -241,7 +256,10 @@ func check_country_click(mouse_pos):
 			)
 
 			if sprite_rect.has_point(local_pos):
-				# Show country info
+				# Play country click sound
+				if country_click_sound:
+					country_click_sound.play()
+					
 				update_country_info(country.name)
 				play_blink_animation(country)
 				_on_country_clicked(country.name, country.global_position)
@@ -278,7 +296,7 @@ func play_blink_animation(sprite):
 
 func _on_country_clicked(country_name, mouse_pos):
 	if activation_done:
-		print("⚠ Activation already done! Ignoring click on", country_name)
+		#print("⚠ Activation already done! Ignoring click on", country_name)
 		return  
 
 	selected_country = country_name
@@ -310,38 +328,61 @@ func _on_country_clicked(country_name, mouse_pos):
 		activation_button.visible = true
 		activation_button.mouse_filter = Control.MOUSE_FILTER_STOP
 		print("✅ Activation Button Positioned at:", activation_button.global_position)
-	else:
-		print("❌ ERROR: Could not find sprite for", country_name)
+	#else:
+		#print("❌ ERROR: Could not find sprite for", country_name)
 
 # Modify _on_ActivationButton_pressed
+# Add after initialize_media_states()
+func print_unconnected_countries_status():
+	var completely_unconnected = []
+	
+	for country_name in countries_data.get_all_country_names():
+		var has_any_media = false
+		for media_type in ["Print", "Satellite", "Social"]:
+			if is_media_connected(country_name, media_type):
+				has_any_media = true
+				break
+		
+		if not has_any_media:
+			completely_unconnected.append(country_name)
+	
+	if not completely_unconnected.is_empty():
+		print("\n❌ Countries with NO media connections:")
+		print(completely_unconnected)
+		print("------------------------")
+
+# Modify _on_ActivationButton_pressed()
 func _on_ActivationButton_pressed():
 	if not selected_country or activation_done:
 		return
 
-	print("🚀 Activating:", selected_country)
+	print("\n🎯 ACTIVATION STARTED FROM:", selected_country)
+	print("------------------------")
+	
 	activation_button.visible = false
 	date_display.start_date_timer()
 
-	var country_sprite = countries_container.find_child(selected_country, true, false)
-	if country_sprite:
-		var sprite_rect = Rect2(
-			-country_sprite.texture.get_width() / 2, 
-			-country_sprite.texture.get_height() / 2, 
-			country_sprite.texture.get_width(), 
-			country_sprite.texture.get_height()
-		)
-		
-		var marker_position = country_sprite.to_global(sprite_rect.get_center())
-		activation_marker.global_position = marker_position
-		activation_marker.visible = true
+	if activation_sound:
+		activation_sound.play()
+	
+	activation_marker.global_position = activation_button.global_position
+	activation_marker.visible = true
 
-		# Connect all media types immediately
-		for media_type in ["Print", "Satellite", "Social"]:
-			connect_media_to_hub(selected_country, media_type)
-		
-		# Schedule spreading
-		schedule_media_connections(selected_country)
-		retry_failed_connections()
+	# Connect all media types immediately
+	for media_type in ["Print", "Satellite", "Social"]:
+		connect_media_to_hub(selected_country, media_type)
+	
+	# Schedule spreading
+	schedule_media_connections(selected_country)
+	retry_failed_connections()
+	
+	# Add periodic status check
+	var status_timer = Timer.new()
+	add_child(status_timer)
+	status_timer.wait_time = 30.0  # Check every 30 seconds
+	status_timer.timeout.connect(print_unconnected_countries_status)
+	status_timer.start()
+	
 	activation_done = true
 
 # Add new function to schedule media connections
@@ -402,14 +443,11 @@ func print_connection_stats():
 				stats[media_type]["not_connected"] += 1
 	
 	print("\n📊 Connection Statistics:")
-	for media_type in stats:
-		print(media_type + ": " + str(stats[media_type]["connected"]) + " connected, " + 
-			  str(stats[media_type]["not_connected"]) + " not connected")
-	print("------------------------")
+	#for media_type in stats:
+		#print(media_type + ": " + str(stats[media_type]["connected"]) + " connected, " + 
+			#  str(stats[media_type]["not_connected"]) + " not connected")
+	#print("------------------------")
 
-# Modify connect_media_to_media to include statistics
-# Modify connect_media_to_media function to include unconnected countries debugging
-# Add this new function to queue pending connections
 var pending_connections = []  # Add at the top with other variables
 
 func queue_pending_connection(source_country: String, target_country: String, media_type: String):
@@ -431,18 +469,18 @@ func find_media_node(media_number: String, media_type: String) -> Node2D:
 func connect_media_to_hub(country_name: String, media_type: String):
 	var media_info = countries_data.get_media_info(country_name, media_type)
 	if media_info.is_empty():
-		print("⚠️ No media info found for", country_name, media_type)
+		#print("⚠️ No media info found for", country_name, media_type)
 		return
 		
 	var media_node = find_media_node(media_info["MediaNumber"], media_type)
 	if not media_node or not media_node.visible:
-		print("⏳ Media not yet visible for " + media_type + " in " + country_name)
+		#print("⏳ Media not yet visible for " + media_type + " in " + country_name)
 		return
 		
 	# Create connection to hub
 	var connection_key = "hub_to_" + country_name + "_" + media_type
 	if media_connections.has(connection_key):
-		print("⚠️ Hub connection already exists for " + country_name + " " + media_type)
+		#print("⚠️ Hub connection already exists for " + country_name + " " + media_type)
 		return
 		
 	var connection = Connection.new()
@@ -517,38 +555,44 @@ func connect_media_to_media(source_country: String, target_country: String, medi
 				  str(unconnected.size()) + "):")
 			print(unconnected)
 			print("------------------------")
-	else:
-		print("⏳ Cannot connect - media not visible or not found for " + media_type + 
-			  " between " + source_country + " and " + target_country)
+	#else:
+		#print("⏳ Cannot connect - media not visible or not found for " + media_type + 
+			 # " between " + source_country + " and " + target_country)
 # Modify calculate_spread_target for better spread mechanics
 func calculate_spread_target(source_number: int, media_type: String) -> int:
 	match media_type:
 		"Print":
-			# Print media spreads to closest neighbors and occasional long jumps
-			if randf() < 0.7:  # 70% chance for nearby spread
+			# Print media prioritizes neighbors first
+			if randf() < 0.8:  # 80% chance for nearby spread
 				var possible_targets = []
-				for offset in [-1, 1, -2, 2, -3, 3, -4, 4]:  # Increased range
+				# Check immediate neighbors first
+				for offset in [-1, 1]:
 					var target = source_number + offset
-					if target >= 1 and target <= 28 and target != source_number:
+					if target >= 1 and target <= 58:
 						possible_targets.append(target)
 				
-				if possible_targets.is_empty():
-					return randi_range(1, 28)  # Global jump if no neighbors
-				return possible_targets[randi() % possible_targets.size()]
-			else:
-				return randi_range(1, 28)  # 30% chance for global jump
+				# If no immediate neighbors, try wider range
+				if possible_targets.is_empty():  # Fixed: empty() -> is_empty()
+					for offset in [-2, 2, -3, 3]:
+						var target = source_number + offset
+						if target >= 1 and target <= 58:
+							possible_targets.append(target)
+				
+				if not possible_targets.is_empty():  # Fixed: empty() -> is_empty()
+					return possible_targets[randi() % possible_targets.size()]
+			return randi_range(1, 58)  # Global jump as fallback
 			
 		"Satellite":
 			# Satellite spreads globally with high chance
-			if randf() < 0.8:  # Increased from 0.6
-				return randi_range(1, 28)
+			if randf() < 0.5:  # Increased from 0.6
+				return randi_range(1, 58)
 			else:
 				var target = source_number + randi_range(-14, 14)  # Increased range
-				return clamp(target, 1, 28) if target != source_number else -1
+				return clamp(target, 1, 58) if target != source_number else -1
 			
 		"Social":
 			# Social media spreads completely randomly
-			return randi_range(1, 28)  # Always global spread
+			return randi_range(1, 58)  # Always global spread
 	
 	return -1
 
@@ -599,6 +643,7 @@ func update_government_progress(current_day):
 		
 		if government_progress >= 100.0:
 			print("⚠️ Government has reached full control!")
+			show_result_panel("lose")
 
 func initialize_media_visibility():
 	# ✅ Show Print media immediately (Early: 0 days)
@@ -614,7 +659,7 @@ func initialize_media_visibility():
 			for media_node in media_category.get_children():
 				media_node.visible = false
 
-	print("✅ Initial Media Visibility Set (Print visible, others hidden).")
+	#print("✅ Initial Media Visibility Set (Print visible, others hidden).")
 
 func activate_media(media_number, media_type):
 	var media_category = media_container.get_node_or_null(media_type)
@@ -637,7 +682,7 @@ func hide_all_media():
 func get_media_number(country_name, media_type):
 	var country_data = countries_data.get_country_data(country_name)
 	if country_data.is_empty():
-		print("❌ ERROR: No country found with name", country_name)
+		#print("❌ ERROR: No country found with name", country_name)
 		return ""
 	
 	var country_number = str(country_data["CountryNumber"])
@@ -646,7 +691,7 @@ func get_media_number(country_name, media_type):
 		"Satellite": return country_number + "-2"
 		"Social": return country_number + "-3"
 	
-	print("❌ ERROR: Invalid media type:", media_type)
+	#print("❌ ERROR: Invalid media type:", media_type)
 	return ""
 
 # ✅ Function to determine media visibility timing
@@ -725,8 +770,6 @@ func update_country_info(country_name):
 		summary_label.text = data["CountrySummary"] + media_status
 		show_country_panel()
 	
-
-
 # Add at the top with other variables
 var media_connections = {}  # Stores active connections
 # Update the connection colors at the top with other variables
@@ -735,7 +778,6 @@ var connection_colors = {
 	"Satellite": Color(0.2, 0.4, 0.9, 0.8),  # Blue for Satellite
 	"Social": Color(0.8, 0.7, 0.2, 0.8)  # Dark yellow for Social
 }
-
 # Modify the Connection class to return to the original style with thin dotted lines
 class Connection extends Node2D:
 	var start_point: Vector2
@@ -766,14 +808,12 @@ class Connection extends Node2D:
 			var dot_end = dot_start + direction.normalized() * 2  # 2 pixel dot length
 			draw_line(dot_start, dot_end, color, line_width)
 			
+
 func update_followers_conversion():
 	for country_name in countries_data.get_all_country_names():
 		var country_data = countries_data.get_country_data(country_name)
 		var active_media_count = 0
 		var total_multiplier = 0.0
-		
-		# Debug: Print initial state
-		print("🔍 " + country_name + " - Initial followers: " + str(country_data["Followers"]))
 		
 		# Calculate multiplier based on active media
 		for media_type in ["Print", "Satellite", "Social"]:
@@ -781,25 +821,16 @@ func update_followers_conversion():
 			if media_state["installed"] and media_state["connected"]:
 				active_media_count += 1
 				total_multiplier += media_multipliers[media_type]
-				print("✓ Active " + media_type + " found for " + country_name)
-		
-		print("📊 Total active media: " + str(active_media_count) + ", Multiplier: " + str(total_multiplier))
 		
 		if active_media_count > 0:
-			# Calculate conversion for this country
 			var current_followers = float(str(country_data["Followers"]).replace("%", ""))
-			var influence_bonus = influence_bar.value / 30.0  # Changed from 100.0 to 30.0
-			var believability_bonus = believability_bar.value / 30.0  # Changed from 100.0 to 30.0
+			var influence_bonus = influence_bar.value / 30.0
+			var believability_bonus = believability_bar.value / 30.0
+			var exposure_multiplier = 1.0 + (exposure_bar.value / 30.0)
 			
-			var daily_conversion = conversion_rate_base * total_multiplier * (1 + influence_bonus) * (1 + believability_bonus)
+			var daily_conversion = conversion_rate_base * total_multiplier * (1 + influence_bonus) * (1 + believability_bonus) * exposure_multiplier
+			
 			var new_followers = min(current_followers + daily_conversion, 100.0)
-			
-			print("💫 Conversion calculation for " + country_name + ":")
-			print("  - Current followers: " + str(current_followers))
-			print("  - Daily conversion: " + str(daily_conversion))
-			print("  - New followers: " + str(new_followers))
-			
-			# Update country followers
 			countries_data.update_followers(country_name, str(new_followers) + "%")
 
 func update_global_stats():
@@ -818,13 +849,79 @@ func update_global_stats():
 	# Update UI
 	update_stats_display()
 
+# Add after update_stats_display function
 func update_stats_display():
 	# Update global stats in the stats container
 	influence_value.text = str(floorf(influence_bar.value)) + "%"
 	believability_value.text = str(floorf(believability_bar.value)) + "%"
-	exposure_value.text = str(floorf(global_followers)) + "%"
+	exposure_value.text = str(floorf(exposure_bar.value)) + "%"
 	total_followers_bar.value = global_followers
 	
+	if global_followers >= 100.0:
+		show_result_panel("win")
+	elif exposure_bar.value >= 20:
+		force_connect_remaining_countries()
+
+func show_result_panel(result_type: String):
+	if date_display and date_display.has_method("stop_timer"):
+		date_display.stop_timer()
+	
+	if result_type == "win":
+		result_text.text = "Victory!\nYour conspiracy has taken over the world!"
+	else:
+		result_text.text = "Game Over!\nThe government has stopped your conspiracy!"
+	
+	result_panel.visible = true
+	result_panel.z_index = 110
+
+func _on_replay_button_pressed():
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://scenes/loading_screen.tscn")
+
+# Add new function to force connect remaining countries
+func force_connect_remaining_countries():
+	var unconnected_countries = []
+	
+	# Find all unconnected countries
+	for country_name in countries_data.get_all_country_names():
+		for media_type in ["Print", "Satellite", "Social"]:
+			if not is_media_connected(country_name, media_type):
+				unconnected_countries.append({
+					"country": country_name,
+					"media_type": media_type
+				})
+	
+	# Connect each unconnected country to the nearest connected country
+	for unconnected in unconnected_countries:
+		var nearest_connected = find_nearest_connected_country(
+			unconnected["country"], 
+			unconnected["media_type"]
+		)
+		
+		if nearest_connected:
+			connect_media_to_media(
+				nearest_connected, 
+				unconnected["country"], 
+				unconnected["media_type"]
+			)
+
+# Add helper function to find nearest connected country
+func find_nearest_connected_country(target_country: String, media_type: String) -> String:
+	var target_number = int(countries_data.get_country_data(target_country)["CountryNumber"])
+	var nearest_distance = 999
+	var nearest_country = ""
+	
+	for country_name in countries_data.get_all_country_names():
+		if country_name != target_country and is_media_connected(country_name, media_type):
+			var country_number = int(countries_data.get_country_data(country_name)["CountryNumber"])
+			var distance = abs(country_number - target_number)
+			
+			if distance < nearest_distance:
+				nearest_distance = distance
+				nearest_country = country_name
+	
+	return nearest_country
+
 func _on_upgrade_button_pressed():
 	upgrades_panel.visible = !upgrades_panel.visible
 
