@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://cycun37wb46ae"]
+
+[ext_resource type="Script" path="res://coins_display.gd" id="1_lenyd"]
+[ext_resource type="Texture2D" uid="uid://bm52qwr6kf164" path="res://assets/backgrounds/Rectangle 69.png" id="2_cp0rx"]
+[ext_resource type="Texture2D" uid="uid://6vcdb6qv0dwb" path="res://assets/icons/Group (1).png" id="3_2cyd5"]
+
+[node name="CoinsDisplay" type="Node2D"]
+scale = Vector2(0.128365, 0.128365)
+script = ExtResource("1_lenyd")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 1240.0
+offset_bottom = 571.0
+texture = ExtResource("2_cp0rx")
+metadata/_edit_use_anchors_ = true
+
+[node name="CoinIcon" type="Sprite2D" parent="."]
+position = Vector2(245, 336)
+scale = Vector2(3.09804, 3.09804)
+texture = ExtResource("3_2cyd5")
+
+[node name="CoinsTag" type="Label" parent="."]
+offset_left = 97.0
+offset_top = 35.0
+offset_right = 145.0
+offset_bottom = 58.0
+scale = Vector2(4.56, 4.56)
+text = "Coins"
+uppercase = true
+metadata/_edit_use_anchors_ = true
+
+[node name="CoinsLabel" type="Label" parent="."]
+offset_left = 576.0
+offset_top = 103.0
+offset_right = 612.0
+offset_bottom = 126.0
+scale = Vector2(17.8, 17.8)
+text = "05"
+uppercase = true
+metadata/_edit_use_anchors_ = true

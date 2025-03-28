@@ -795,3 +795,8 @@ func set_media_installed(country_name: String, media_type: String, installed: bo
 func set_media_connected(country_name: String, media_type: String, connected: bool) -> void:
 	if countries.has(country_name) and countries[country_name]["Media"].has(media_type):
 		countries[country_name]["Media"][media_type]["Connected"] = connected
+
+func update_followers(country_name: String, new_followers: String) -> void:
+	if countries.has(country_name):
+		print("📝 Updating " + country_name + " followers from " + str(countries[country_name]["Followers"]) + " to " + new_followers)
+		countries[country_name]["Followers"] = new_followers

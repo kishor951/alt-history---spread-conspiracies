@@ -2,6 +2,17 @@ extends Node2D
 
 signal day_changed(day)
 
+# Update the node references at the top
+@onready var stats_container = $"CanvasLayer/StatsContainer"
+@onready var believability_bar = $"CanvasLayer/StatsContainer/Believability/ProgressBar"
+@onready var exposure_bar = $"CanvasLayer/StatsContainer/Exposure/ProgressBar"
+@onready var influence_bar = $"CanvasLayer/StatsContainer/Influence/ProgressBar"
+
+@onready var believability_value = $"CanvasLayer/StatsContainer/Believability/Value"
+@onready var exposure_value = $"CanvasLayer/StatsContainer/Exposure/Value"
+@onready var influence_value = $"CanvasLayer/StatsContainer/Influence/Value"
+
+# Keep existing country info panel references
 @onready var country_info_panel = $"CanvasLayer/CountryInfoPanel"
 @onready var country_name_label = $"CanvasLayer/CountryInfoPanel/CountryName"
 @onready var population_label = $"CanvasLayer/CountryInfoPanel/Population"
@@ -21,9 +32,27 @@ var activation_done = false  # Prevents multiple activations
 @onready var activation_button = $ActivationButton  # The activation button
 @onready var activation_marker = $ActivationMarker  # The activation sprite
 
+@onready var total_followers_bar = $FollowersBar
+
 @onready var media_container = get_node("MediaContainer")
 
+var info_panel_timer: Timer
+
 var button_offset := Vector2(0, -10)
+
+var global_followers = 0.0
+var global_population = 0
+var conversion_rate_base = 0.01  # 0.01% base conversion per day
+var media_multipliers = {
+	"Print": 1.0,
+	"Satellite": 1.5,
+	"Social": 2.0
+}
+
+@onready var government_bar = $"GovernmentBar"
+var government_start_days = 0
+var government_progress = 0.0
+var base_government_speed = 0.05  # Base progress per day (0.05%)
 
 # At the top with other variables
 @onready var countries_data = preload("res://scripts/countries_data.gd").new()
@@ -67,6 +96,41 @@ func _ready():
 	summary_label.add_theme_font_override("font", manrope_font)
 	summary_label.add_theme_font_size_override("font_size", 16)
 
+
+	country_info_panel.visible = false
+	stats_container.visible = true
+	
+	# Create timer for auto-hiding
+	info_panel_timer = Timer.new()
+	info_panel_timer.one_shot = true
+	info_panel_timer.wait_time = 7.0  # 7 seconds before hiding
+	info_panel_timer.timeout.connect(show_stats_panel)
+	add_child(info_panel_timer)
+	
+	# Set progress bar ranges to 0-30
+	influence_bar.min_value = 0
+	influence_bar.max_value = 30
+	believability_bar.min_value = 0
+	believability_bar.max_value = 30
+	exposure_bar.min_value = 0
+	exposure_bar.max_value = 30
+	
+	# Initialize government progression
+	government_bar.min_value = 0
+	government_bar.max_value = 100
+	government_bar.value = 0
+	initialize_government_timing()
+	
+func show_stats_panel():
+	country_info_panel.visible = false
+	stats_container.visible = true
+
+func show_country_panel():
+	country_info_panel.visible = true
+	stats_container.visible = false
+	# Reset timer
+	info_panel_timer.start()
+	
 # In _on_day_changed function
 # Modify _on_day_changed function to trigger spreading when new media becomes visible
 func _on_day_changed(total_days):
@@ -93,6 +157,11 @@ func _on_day_changed(total_days):
 					if country_name == selected_country:
 						connect_media_to_hub(country_name, media_type)
 						attempt_media_spread(country_name)
+	update_followers_conversion()
+	update_global_stats()
+	update_government_progress(total_days)
+	update_followers_conversion()
+	update_global_stats()
 
 # Modify attempt_media_spread function to check visibility
 # Complete the attempt_media_spread function
@@ -495,6 +564,22 @@ func schedule_media_activation(media_number, media_type, days):
 	timer.timeout.connect(func(): activate_media(media_number, media_type))
 	timer.start()
 
+func initialize_government_timing():
+	government_start_days = randi_range(250, 300)
+	print("🏛️ Government will begin actions on day: " + str(government_start_days))
+
+func update_government_progress(current_day):
+	if current_day >= government_start_days:
+		# Calculate speed based on influence (0-30 range)
+		var influence_factor = influence_bar.value / 30.0
+		var slowdown_multiplier = 1.0 - (influence_factor * 0.8)  # High influence = slower progress
+		var daily_progress = base_government_speed * slowdown_multiplier
+		
+		government_progress = min(government_progress + daily_progress, 100.0)
+		government_bar.value = government_progress
+		
+		if government_progress >= 100.0:
+			print("⚠️ Government has reached full control!")
 
 func initialize_media_visibility():
 	# ✅ Show Print media immediately (Early: 0 days)
@@ -602,28 +687,24 @@ func get_media_state(country_name: String, media_type: String) -> Dictionary:
 	return {"installed": false, "connected": false}
 
 func update_country_info(country_name):
-	print("🔍 Updating info for country:", country_name)
 	var data = countries_data.get_country_data(country_name)
-	print("📊 Retrieved data:", data)
 	
 	if not data.is_empty():
-		# ✅ Update UI
 		country_name_label.text = "Country: " + country_name
 		population_label.text = "Population: " + str(data["Population"])
-		followers_label.text = "Followers: " + str(data["Followers"]) + "%"
-		summary_label.text = data["CountrySummary"]
-		country_info_panel.visible = true
-		print("✅ UI updated successfully")
-	else:
-		push_error("⚠️ No data available for " + country_name)
-	
-	# Debug country data
-	print("📊 Available countries:", countries_data.get_all_country_names())
-	
-	# Test data access for a specific country
-	var test_country = countries_data.get_all_country_names()[0]
-	var test_data = countries_data.get_country_data(test_country)
-	print("📊 Test country data for", test_country, ":", test_data)
+		# Convert followers to float and format it
+		var followers = float(str(data["Followers"]).replace("%", ""))
+		followers_label.text = "Followers: " + str(floorf(followers)) + "%"
+		
+		# Add media status to summary
+		var media_status = "\n\nActive Media:"
+		for media_type in ["Print", "Satellite", "Social"]:
+			var state = get_media_state(country_name, media_type)
+			if state["installed"] and state["connected"]:
+				media_status += "\n- " + media_type
+		
+		summary_label.text = data["CountrySummary"] + media_status
+		show_country_panel()
 	
 
 
@@ -666,3 +747,61 @@ class Connection extends Node2D:
 			var dot_end = dot_start + direction.normalized() * 2  # 2 pixel dot length
 			draw_line(dot_start, dot_end, color, line_width)
 			
+func update_followers_conversion():
+	for country_name in countries_data.get_all_country_names():
+		var country_data = countries_data.get_country_data(country_name)
+		var active_media_count = 0
+		var total_multiplier = 0.0
+		
+		# Debug: Print initial state
+		print("🔍 " + country_name + " - Initial followers: " + str(country_data["Followers"]))
+		
+		# Calculate multiplier based on active media
+		for media_type in ["Print", "Satellite", "Social"]:
+			var media_state = get_media_state(country_name, media_type)
+			if media_state["installed"] and media_state["connected"]:
+				active_media_count += 1
+				total_multiplier += media_multipliers[media_type]
+				print("✓ Active " + media_type + " found for " + country_name)
+		
+		print("📊 Total active media: " + str(active_media_count) + ", Multiplier: " + str(total_multiplier))
+		
+		if active_media_count > 0:
+			# Calculate conversion for this country
+			var current_followers = float(str(country_data["Followers"]).replace("%", ""))
+			var influence_bonus = influence_bar.value / 30.0  # Changed from 100.0 to 30.0
+			var believability_bonus = believability_bar.value / 30.0  # Changed from 100.0 to 30.0
+			
+			var daily_conversion = conversion_rate_base * total_multiplier * (1 + influence_bonus) * (1 + believability_bonus)
+			var new_followers = min(current_followers + daily_conversion, 100.0)
+			
+			print("💫 Conversion calculation for " + country_name + ":")
+			print("  - Current followers: " + str(current_followers))
+			print("  - Daily conversion: " + str(daily_conversion))
+			print("  - New followers: " + str(new_followers))
+			
+			# Update country followers
+			countries_data.update_followers(country_name, str(new_followers) + "%")
+
+func update_global_stats():
+	var total_followers_count = 0
+	var total_countries = countries_data.get_all_country_names().size()
+	
+	for country_name in countries_data.get_all_country_names():
+		var country_data = countries_data.get_country_data(country_name)
+		var follower_percentage = float(str(country_data["Followers"]).replace("%", ""))
+		total_followers_count += follower_percentage
+	
+	# Calculate total progress (0-100%)
+	var total_progress = (total_followers_count / (total_countries * 100.0)) * 100.0
+	global_followers = total_progress
+	
+	# Update UI
+	update_stats_display()
+
+func update_stats_display():
+	# Update global stats in the stats container
+	influence_value.text = str(floorf(influence_bar.value)) + "%"
+	believability_value.text = str(floorf(believability_bar.value)) + "%"
+	exposure_value.text = str(floorf(global_followers)) + "%"
+	total_followers_bar.value = global_followers
