@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=3 uid="uid://wtwwvwxm6ei8"]
+[gd_scene load_steps=86 format=3 uid="uid://wtwwvwxm6ei8"]
 
 [ext_resource type="Script" path="res://scripts/country_map.gd" id="1_qo87q"]
 [ext_resource type="Texture2D" uid="uid://cfvmlh1bceh0w" path="res://assets/images/countries_new/Brazil.png" id="3_aluyu"]
@@ -64,7 +64,9 @@
 [ext_resource type="PackedScene" uid="uid://b1y75exnp5rke" path="res://scenes/DateDisplay.tscn" id="62_m6gbh"]
 [ext_resource type="PackedScene" uid="uid://babiwjjvyybhn" path="res://scenes/upgrades_panel.tscn" id="62_wqdem"]
 [ext_resource type="Texture2D" uid="uid://ceumigarl05s7" path="res://assets/icons/Activation.png" id="63_0b50x"]
+[ext_resource type="Texture2D" uid="uid://dvstjepfr2w8u" path="res://assets/backgrounds/Rectangle 9.png" id="63_g4xd8"]
 [ext_resource type="Texture2D" uid="uid://cou52m7so6bvf" path="res://assets/icons/Hub.png" id="64_33hax"]
+[ext_resource type="Texture2D" uid="uid://csdf0bga44pg5" path="res://assets/backgrounds/Rectangle 19.png" id="64_khfi6"]
 [ext_resource type="Texture2D" uid="uid://tuv0c1pryihk" path="res://assets/icons/print.png" id="65_1wv4k"]
 [ext_resource type="Texture2D" uid="uid://be1fej7x4k2p5" path="res://assets/icons/satellite.png" id="66_devao"]
 [ext_resource type="Texture2D" uid="uid://cawhfkouc3s1t" path="res://assets/icons/social.png" id="67_smntn"]
@@ -74,6 +76,13 @@
 [ext_resource type="Texture2D" uid="uid://dy4uwsmi2rrfb" path="res://assets/backgrounds/Rectangle 16.png" id="71_hv5q7"]
 [ext_resource type="Texture2D" uid="uid://c6t83muw286yl" path="res://assets/backgrounds/Rectangle 62.png" id="72_otoj3"]
 [ext_resource type="Texture2D" uid="uid://cn26kyhbr6cdl" path="res://assets/backgrounds/Rectangle 60.png" id="72_p8jsl"]
+[ext_resource type="Texture2D" uid="uid://b1ixuh44lspkr" path="res://assets/backgrounds/Rectangle 68.png" id="77_kgfjd"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jrqga"]
+texture = ExtResource("63_g4xd8")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7abhr"]
+texture = ExtResource("64_khfi6")
 
 [sub_resource type="Theme" id="Theme_cev7u"]
 
@@ -86,6 +95,12 @@ texture = ExtResource("72_p8jsl")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mug44"]
 texture = ExtResource("72_otoj3")
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_thxdj"]
+texture = ExtResource("72_otoj3")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_trqw3"]
+texture = ExtResource("72_p8jsl")
+
 [node name="CountryMap" type="Node2D"]
 script = ExtResource("1_qo87q")
 
@@ -93,6 +108,14 @@ script = ExtResource("1_qo87q")
 visible = false
 position = Vector2(640, 359)
 enabled = false
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = 295.0
+offset_top = 619.0
+offset_right = 1195.0
+offset_bottom = 737.0
+scale = Vector2(0.76, 0.76)
+texture = ExtResource("71_hv5q7")
 
 [node name="CountriesContainer" type="Node2D" parent="."]
 top_level = true
@@ -441,10 +464,11 @@ offset_bottom = 708.0
 
 [node name="Believability" type="HBoxContainer" parent="CanvasLayer/StatsContainer"]
 layout_mode = 0
-offset_left = 73.0
-offset_top = 20.0
-offset_right = 206.0
-offset_bottom = 60.0
+offset_left = 67.0
+offset_top = 34.0
+offset_right = 201.0
+offset_bottom = 67.0
+scale = Vector2(1.2, 0.919995)
 
 [node name="Icon" type="TextureRect" parent="CanvasLayer/StatsContainer/Believability"]
 layout_mode = 2
@@ -457,17 +481,23 @@ z_index = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxTexture_jrqga")
+theme_override_styles/fill = SubResource("StyleBoxTexture_7abhr")
 max_value = 30.0
 show_percentage = false
 
 [node name="Exposure" type="HBoxContainer" parent="CanvasLayer/StatsContainer"]
 layout_mode = 0
-offset_left = 493.0
-offset_top = 24.0
-offset_right = 657.0
-offset_bottom = 64.0
+offset_left = 433.0
+offset_top = 34.0
+offset_right = 644.0
+offset_bottom = 85.0
+scale = Vector2(0.759995, 0.56468)
 
 [node name="Icon" type="TextureRect" parent="CanvasLayer/StatsContainer/Exposure"]
+layout_mode = 2
+
+[node name="Value" type="Label" parent="CanvasLayer/StatsContainer/Exposure"]
 layout_mode = 2
 
 [node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/StatsContainer/Exposure"]
@@ -475,18 +505,18 @@ z_index = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxTexture_jrqga")
+theme_override_styles/fill = SubResource("StyleBoxTexture_7abhr")
 max_value = 30.0
 show_percentage = false
 
-[node name="Value" type="Label" parent="CanvasLayer/StatsContainer/Exposure"]
-layout_mode = 2
-
 [node name="Influence" type="HBoxContainer" parent="CanvasLayer/StatsContainer"]
 layout_mode = 0
-offset_left = 280.0
-offset_top = 23.0
+offset_left = 249.0
+offset_top = 34.0
 offset_right = 413.0
 offset_bottom = 63.0
+scale = Vector2(1, 1.04)
 
 [node name="Icon" type="TextureRect" parent="CanvasLayer/StatsContainer/Influence"]
 layout_mode = 2
@@ -499,51 +529,81 @@ z_index = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
+theme_override_styles/background = SubResource("StyleBoxTexture_jrqga")
+theme_override_styles/fill = SubResource("StyleBoxTexture_7abhr")
 max_value = 30.0
 show_percentage = false
 
+[node name="Label" type="Label" parent="CanvasLayer/StatsContainer"]
+layout_mode = 0
+offset_left = 113.0
+offset_top = 5.0
+offset_right = 187.0
+offset_bottom = 28.0
+text = "Belivability"
+
+[node name="Label2" type="Label" parent="CanvasLayer/StatsContainer"]
+layout_mode = 0
+offset_left = 294.0
+offset_top = 4.0
+offset_right = 368.0
+offset_bottom = 27.0
+text = "Influence"
+
+[node name="Label3" type="Label" parent="CanvasLayer/StatsContainer"]
+layout_mode = 0
+offset_left = 482.0
+offset_top = 5.0
+offset_right = 556.0
+offset_bottom = 28.0
+text = "Exposure"
+
 [node name="CountryInfoPanel" type="Panel" parent="CanvasLayer"]
 layout_mode = 0
-offset_left = 295.0
-offset_top = 623.0
-offset_right = 976.0
-offset_bottom = 708.0
+offset_left = 296.0
+offset_top = 620.0
+offset_right = 977.0
+offset_bottom = 705.0
 
 [node name="CountryName" type="Label" parent="CanvasLayer/CountryInfoPanel"]
 layout_mode = 0
-offset_left = 55.0
-offset_top = 3.0
-offset_right = 224.0
-offset_bottom = 26.0
+offset_left = 26.0
+offset_top = 8.0
+offset_right = 216.0
+offset_bottom = 36.0
+theme_override_font_sizes/font_size = 20
 text = "Country"
 
 [node name="Population" type="Label" parent="CanvasLayer/CountryInfoPanel"]
 layout_mode = 0
-offset_left = 258.0
-offset_top = 9.0
-offset_right = 452.0
-offset_bottom = 32.0
+offset_left = 254.0
+offset_top = 8.0
+offset_right = 483.0
+offset_bottom = 36.0
+theme_override_font_sizes/font_size = 20
 text = "Population"
 
 [node name="Followers" type="Label" parent="CanvasLayer/CountryInfoPanel"]
 layout_mode = 0
-offset_left = 473.0
-offset_top = 12.0
-offset_right = 666.0
-offset_bottom = 35.0
+offset_left = 526.0
+offset_top = 9.0
+offset_right = 665.0
+offset_bottom = 37.0
+theme_override_font_sizes/font_size = 20
 text = "Followers"
 
 [node name="Summary" type="Label" parent="CanvasLayer/CountryInfoPanel"]
 layout_mode = 0
-offset_left = 67.0
+offset_left = 60.0
 offset_top = 49.0
-offset_right = 590.0
+offset_right = 583.0
 offset_bottom = 72.0
 text = "Summary"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="UpgradesPanel" type="Node2D" parent="CanvasLayer"]
+position = Vector2(0, 1)
 
 [node name="UpgradesPanel" parent="CanvasLayer/UpgradesPanel" instance=ExtResource("62_wqdem")]
 visible = false
@@ -552,10 +612,13 @@ z_index = 101
 [node name="Calender" type="CanvasLayer" parent="."]
 
 [node name="DateDisplay" parent="Calender" instance=ExtResource("62_m6gbh")]
-offset_left = 1069.0
-offset_top = 21.0
-offset_right = -31.0
-offset_bottom = -663.0
+anchors_preset = -1
+anchor_left = 0.0125
+anchor_right = 0.9875
+offset_left = 1068.0
+offset_top = 22.0
+offset_right = -32.0
+offset_bottom = -662.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 metadata/_edit_use_anchors_ = true
@@ -1485,8 +1548,54 @@ theme = SubResource("Theme_cev7u")
 theme_override_styles/background = SubResource("StyleBoxTexture_e7yma")
 theme_override_styles/fill = SubResource("StyleBoxTexture_mug44")
 
+[node name="UpgradeButton2" type="Button" parent="."]
+offset_left = 1002.0
+offset_top = 621.0
+offset_right = 1241.0
+offset_bottom = 707.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxTexture_thxdj")
+text = "GOVERNMENT"
+
 [node name="UpgradeButton" type="Button" parent="."]
 offset_left = 39.0
-offset_top = 624.0
+offset_top = 620.0
 offset_right = 278.0
 offset_bottom = 706.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 36
+theme_override_styles/normal = SubResource("StyleBoxTexture_trqw3")
+text = "UPGRADES"
+
+[node name="TextureRect3" type="TextureRect" parent="."]
+offset_left = 1043.0
+offset_top = 569.0
+offset_right = 1317.0
+offset_bottom = 646.0
+scale = Vector2(0.719999, 0.56001)
+texture = ExtResource("77_kgfjd")
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+offset_left = 38.0
+offset_top = 570.0
+offset_right = 272.0
+offset_bottom = 642.0
+scale = Vector2(0.719999, 0.56001)
+texture = ExtResource("77_kgfjd")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 45.0
+offset_top = 568.0
+offset_right = 134.0
+offset_bottom = 591.0
+scale = Vector2(1.72, 1.75865)
+text = "FOLLOWERS"
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 1050.0
+offset_top = 568.0
+offset_right = 1158.0
+offset_bottom = 591.0
+scale = Vector2(1.72, 1.75865)
+text = "INVESTIGATION"

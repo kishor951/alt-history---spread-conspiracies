@@ -89,13 +89,13 @@ func _ready():
 	
 	# Apply fonts and sizes to labels
 	country_name_label.add_theme_font_override("font", manrope_font)
-	country_name_label.add_theme_font_size_override("font_size", 24)
+	country_name_label.add_theme_font_size_override("font_size", 20)
 	
 	population_label.add_theme_font_override("font", manrope_font)
-	population_label.add_theme_font_size_override("font_size", 18)
+	population_label.add_theme_font_size_override("font_size", 20)
 	
 	followers_label.add_theme_font_override("font", manrope_font)
-	followers_label.add_theme_font_size_override("font_size", 18)
+	followers_label.add_theme_font_size_override("font_size", 20)
 	
 	summary_label.add_theme_font_override("font", manrope_font)
 	summary_label.add_theme_font_size_override("font_size", 16)
@@ -130,6 +130,15 @@ func _ready():
 	# Connect to the panel itself, not its parent
 	upgrades_panel.upgrade_purchased.connect(_on_upgrade_purchased)
 	upgrades_panel.visible = false
+
+	upgrades_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	upgrades_panel.gui_input.connect(_on_upgrades_panel_gui_input)
+	upgrades_panel.visible = false
+
+func _on_upgrades_panel_gui_input(event: InputEvent):
+	if event is InputEventMouseButton:
+		get_viewport().set_input_as_handled()
+
 	
 func show_stats_panel():
 	country_info_panel.visible = false

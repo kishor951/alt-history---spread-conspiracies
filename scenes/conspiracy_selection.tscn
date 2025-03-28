@@ -1,0 +1,81 @@
+[gd_scene load_steps=9 format=3 uid="uid://bdmg5i02pjgy8"]
+
+[ext_resource type="Script" path="res://scripts/conspiracy_selection.gd" id="1_t7lne"]
+[ext_resource type="Texture2D" uid="uid://ctk0rc76s5tri" path="res://assets/backgrounds/Frame 15.png" id="2_8ku6c"]
+[ext_resource type="Texture2D" uid="uid://kfgynanxgo0l" path="res://assets/backgrounds/Untitled design (92) 1.png" id="3_4cfak"]
+[ext_resource type="Texture2D" uid="uid://bu2ay4rmxpqxl" path="res://assets/backgrounds/Group 138.png" id="4_a7wg2"]
+[ext_resource type="Texture2D" uid="uid://yd5bv3d10rrn" path="res://assets/backgrounds/Alt History.png" id="5_boohk"]
+[ext_resource type="Texture2D" uid="uid://cnbdt1c782p6n" path="res://assets/backgrounds/image-removebg-preview 1.png" id="6_ejolv"]
+[ext_resource type="Texture2D" uid="uid://cpgba7n4ishdt" path="res://assets/backgrounds/image-removebg-preview (2) 2.png" id="7_4fdnc"]
+[ext_resource type="Texture2D" uid="uid://88elgp7avv30" path="res://assets/backgrounds/Tap to continue.png" id="8_lid14"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_t7lne")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_8ku6c")
+
+[node name="CharacterImage" type="Sprite2D" parent="."]
+position = Vector2(258, 483)
+texture = ExtResource("3_4cfak")
+
+[node name="MessageContainer" type="Sprite2D" parent="."]
+position = Vector2(844, 423)
+scale = Vector2(1, 1.84694)
+texture = ExtResource("4_a7wg2")
+
+[node name="AltHistory" type="Sprite2D" parent="."]
+position = Vector2(672, 104)
+scale = Vector2(0.477099, 0.477099)
+texture = ExtResource("5_boohk")
+
+[node name="Big Splash" type="Sprite2D" parent="."]
+position = Vector2(771, 107)
+scale = Vector2(0.461709, 0.461709)
+texture = ExtResource("6_ejolv")
+
+[node name="Dot2" type="Sprite2D" parent="."]
+position = Vector2(491, 118)
+scale = Vector2(0.378427, 0.378427)
+texture = ExtResource("7_4fdnc")
+
+[node name="TapToContinue" type="Sprite2D" parent="."]
+position = Vector2(1091, 658)
+texture = ExtResource("8_lid14")
+
+[node name="TapDetector" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 490.0
+offset_top = 270.0
+offset_right = 1200.0
+offset_bottom = 579.0
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Select a conspiracy theory to spread!"
+horizontal_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ConspiracyButton1" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ConspiracyButton2" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="ConspiracyButton3" type="Button" parent="VBoxContainer"]
+layout_mode = 2
