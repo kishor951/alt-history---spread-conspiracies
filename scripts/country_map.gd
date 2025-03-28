@@ -50,8 +50,8 @@ var global_population = 0
 var conversion_rate_base = 0.05  # 0.01% base conversion per day
 var media_multipliers = {
 	"Print": 1.0,
-	"Satellite": 1.5,
-	"Social": 2.0
+	"Satellite": 1.2,
+	"Social": 1.3
 }
 
 # Add at the top with other @onready vars
@@ -62,7 +62,7 @@ var media_multipliers = {
 @onready var government_bar = $"GovernmentBar"
 var government_start_days = 0 #
 var government_progress = 0.0
-var base_government_speed = 0.15  # Base progress per day (0.05%)
+var base_government_speed = 0.25  # Base progress per day (0.05%)
 
 @onready var upgrades_panel = $CanvasLayer/UpgradesPanel/UpgradesPanel  # Update the path to point to the actual Panel node
 @onready var upgrade_button = $UpgradeButton

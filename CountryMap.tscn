@@ -472,21 +472,21 @@ offset_top = 622.0
 offset_right = 977.0
 offset_bottom = 708.0
 
-[node name="Believability" type="HBoxContainer" parent="CanvasLayer/StatsContainer"]
+[node name="Influence" type="HBoxContainer" parent="CanvasLayer/StatsContainer"]
 layout_mode = 0
-offset_left = 67.0
+offset_left = 249.0
 offset_top = 34.0
-offset_right = 201.0
-offset_bottom = 67.0
-scale = Vector2(1.2, 0.919995)
+offset_right = 413.0
+offset_bottom = 63.0
+scale = Vector2(1, 1.04)
 
-[node name="Icon" type="TextureRect" parent="CanvasLayer/StatsContainer/Believability"]
+[node name="Icon" type="TextureRect" parent="CanvasLayer/StatsContainer/Influence"]
 layout_mode = 2
 
-[node name="Value" type="Label" parent="CanvasLayer/StatsContainer/Believability"]
+[node name="Value" type="Label" parent="CanvasLayer/StatsContainer/Influence"]
 layout_mode = 2
 
-[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/StatsContainer/Believability"]
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/StatsContainer/Influence"]
 z_index = 2
 layout_mode = 2
 size_flags_horizontal = 3
@@ -498,11 +498,11 @@ show_percentage = false
 
 [node name="Exposure" type="HBoxContainer" parent="CanvasLayer/StatsContainer"]
 layout_mode = 0
-offset_left = 433.0
+offset_left = 437.0
 offset_top = 34.0
-offset_right = 644.0
-offset_bottom = 85.0
-scale = Vector2(0.759995, 0.56468)
+offset_right = 601.0
+offset_bottom = 63.0
+scale = Vector2(1, 1.04)
 
 [node name="Icon" type="TextureRect" parent="CanvasLayer/StatsContainer/Exposure"]
 layout_mode = 2
@@ -520,21 +520,21 @@ theme_override_styles/fill = SubResource("StyleBoxTexture_7abhr")
 max_value = 30.0
 show_percentage = false
 
-[node name="Influence" type="HBoxContainer" parent="CanvasLayer/StatsContainer"]
+[node name="Believability" type="HBoxContainer" parent="CanvasLayer/StatsContainer"]
 layout_mode = 0
-offset_left = 249.0
+offset_left = 64.0
 offset_top = 34.0
-offset_right = 413.0
+offset_right = 228.0
 offset_bottom = 63.0
 scale = Vector2(1, 1.04)
 
-[node name="Icon" type="TextureRect" parent="CanvasLayer/StatsContainer/Influence"]
+[node name="Icon" type="TextureRect" parent="CanvasLayer/StatsContainer/Believability"]
 layout_mode = 2
 
-[node name="Value" type="Label" parent="CanvasLayer/StatsContainer/Influence"]
+[node name="Value" type="Label" parent="CanvasLayer/StatsContainer/Believability"]
 layout_mode = 2
 
-[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/StatsContainer/Influence"]
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/StatsContainer/Believability"]
 z_index = 2
 layout_mode = 2
 size_flags_horizontal = 3

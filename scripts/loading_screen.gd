@@ -1,5 +1,8 @@
 extends Control
 
+# Add AudioStreamPlayer at the top with other @onready vars
+@onready var button_sound = $ButtonSound
+@onready var splash_sound = $SplashSound
 @onready var alt_history = $AltHistory
 @onready var subline = $Subline
 @onready var big_splash = $BigSplash
@@ -39,8 +42,11 @@ func animate_sequence():
 		.set_ease(Tween.EASE_OUT)
 	tween.parallel().tween_property(alt_history, "modulate:a", 1.0, 1.5)
 	
+	# Play sound 2 seconds before splash
+	tween.tween_callback(func(): splash_sound.play())
+	tween.tween_interval(2.5)
+	
 	# Splash grows from small to large
-	tween.tween_interval(0.8)
 	tween.tween_property(big_splash, "scale", Vector2(1, 1), 0.5)\
 		.set_trans(Tween.TRANS_BOUNCE)
 	tween.parallel().tween_property(big_splash, "modulate:a", 1.0, 0.5)
@@ -87,5 +93,8 @@ func show_enter_button():
 	button_tween.tween_property(enter_button, "modulate:a", 1.0, 1.0)
 
 func _on_enter_pressed():
+	button_sound.play()
+	# Wait a brief moment for the sound to play before transitioning
+	await get_tree().create_timer(0.1).timeout
 	# Transition to welcome screen
 	get_tree().change_scene_to_file("res://scenes/welcome_screen.tscn")

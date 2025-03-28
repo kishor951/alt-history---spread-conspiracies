@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bidu821cbu1w8"]
+[gd_scene load_steps=13 format=3 uid="uid://bidu821cbu1w8"]
 
 [ext_resource type="Script" path="res://scripts/loading_screen.gd" id="1_gnwq8"]
 [ext_resource type="Texture2D" uid="uid://ctk0rc76s5tri" path="res://assets/backgrounds/Frame 15.png" id="1_jh87b"]
@@ -6,7 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://b8b4b7udupvoa" path="res://assets/backgrounds/Rewrite the past....png" id="3_mc58l"]
 [ext_resource type="Texture2D" uid="uid://cnbdt1c782p6n" path="res://assets/backgrounds/image-removebg-preview 1.png" id="4_0vled"]
 [ext_resource type="Texture2D" uid="uid://cpgba7n4ishdt" path="res://assets/backgrounds/image-removebg-preview (2) 2.png" id="5_6ymv3"]
+[ext_resource type="AudioStream" uid="uid://be8102le4f5up" path="res://assets/sounds/sudden-shock-reveal-bass-283846.mp3" id="6_t1e3v"]
 [ext_resource type="Texture2D" uid="uid://bgs5muwkk7xtu" path="res://assets/backgrounds/image-removebg-preview (2) 1.png" id="6_x5m8o"]
+[ext_resource type="AudioStream" uid="uid://my2shq60tro6" path="res://assets/sounds/mouse-click-sound-233951.mp3" id="7_hycf1"]
 [ext_resource type="FontFile" uid="uid://dfy4ntjfyj8w0" path="res://assets/fonts/Manrope-VariableFont_wght.ttf" id="8_46k3n"]
 [ext_resource type="Texture2D" uid="uid://cn26kyhbr6cdl" path="res://assets/backgrounds/Rectangle 60.png" id="9_isorq"]
 
@@ -38,6 +40,12 @@ texture = ExtResource("3_mc58l")
 [node name="BigSplash" type="Sprite2D" parent="."]
 position = Vector2(850, 276)
 texture = ExtResource("4_0vled")
+
+[node name="SplashSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_t1e3v")
+
+[node name="ButtonSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_hycf1")
 
 [node name="Drops1" type="Sprite2D" parent="."]
 position = Vector2(304, 389)
